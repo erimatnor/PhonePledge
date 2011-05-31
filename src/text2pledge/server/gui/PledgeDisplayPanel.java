@@ -297,7 +297,7 @@ public class PledgeDisplayPanel extends JPanel
 				width - (int)xOffset - (phoneNumberWidth / 2) - (instructionWidth / 2), 
 				y - 10);
 		
-		double rectWidth = rectThickness;
+		//double rectWidth = rectThickness;
 		double rectHeight = height - (scaledLogo.getHeight(this) + yOffset*2.5);
 		
 		// Draw blue L

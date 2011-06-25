@@ -1,1 +1,15 @@
 For Licensing and copying information, see the file COPYING.
+
+Compile with "make" or Eclipse. Requires a Java SDK installed on the system.
+
+To compile:
+
+$ make
+
+To run:
+
+$ ./pp_server&
+$ ./pp_client [username password]
+
+The username and password should match a Google voice account to use
+for PhonePledge.

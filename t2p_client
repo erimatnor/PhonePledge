@@ -1,3 +1,0 @@
-#!/bin/bash
-
-java -jar text2pledge.jar -c "$@"

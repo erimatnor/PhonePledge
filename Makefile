@@ -1,4 +1,4 @@
-JARFILE = text2pledge.jar
+JARFILE = phonepledge.jar
 MANIFEST = Manifest.txt
 SOURCEFILES = $(shell cd src; find . -name *.java -print)
 RESOURCES = $(shell find src -name *.png -print) $(shell find src -name *.jpg -print)

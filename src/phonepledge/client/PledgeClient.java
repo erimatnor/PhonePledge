@@ -211,12 +211,18 @@ public class PledgeClient {
 	
 	public boolean start() {
 		if (!isConnected) {
-			if (!connect())
+			System.out.println("Connecting...");
+
+			if (!connect()) {
+				System.err.println("Could not connect to server");
 				return false;
+			}
 		}
 		
+		System.out.println("Starting sender");
 		if (!sender.start())
 			return false;
+		System.out.println("Starting receiver");
 		
 		if (!receiver.start())
 			return false;
@@ -247,7 +253,9 @@ public class PledgeClient {
 	private boolean connect() {
 		
 		try {
+			System.out.println("Connecting to server on port " + PledgeServer.SERVER_PORT);
 			sock = new Socket(serverAddress, PledgeServer.SERVER_PORT);
+			System.out.println("Connected to server");
 			isConnected = true;
 		} catch (ConnectException e) {
 			System.err.printf("Could not connect to server at %s:%d. Is it running?\n",

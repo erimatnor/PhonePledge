@@ -37,12 +37,10 @@ public class GoogleVoiceConnector implements Runnable {
 	Thread googleVoiceThread = null;
 	HashSet<Pledge> pledgeSet = new HashSet<Pledge>();
 	PledgeControlPanel pledgeControl;
-	String replyMessage = "Thnx 4 texting a pledge to Lambda Legal. U can pay ur pledge 2night @ the registration table or we'll contact u in a few days. Thnx again!";
+	String replyMessage = "Thank you for your pledge!";
 	long refreshCounter = 0;
 	
-	public GoogleVoiceConnector(String user, String pass, PledgeControlPanel ps) {
-		this.user = user;
-		this.pass = pass;
+	public GoogleVoiceConnector(PledgeControlPanel ps) {
 		pledgeControl = ps;
 		pledgeControl.setGoogleVoiceConnector(this);
 	}
@@ -53,23 +51,26 @@ public class GoogleVoiceConnector implements Runnable {
 	
 	public void setShouldSendReply(boolean shouldSend) {
 		shouldSendReply = shouldSend;
-		//System.out.println("Sending SMS reply=" + shouldSend);
+		System.out.println("Send SMS reply=" + shouldSend);
 	}
 	
 	public void setReplyMessage(String msg) {
 		replyMessage = msg;
 	}
 	
-	public void connect() throws IOException {
+	public boolean connect(String user, String pass) {
 		try {
 			voice = new Voice(user, pass, "PhonePledge", false);
 		} catch (IOException e) {
 			System.err.println("Could not connect to google voice account '" 
 					+ user +"':" + e.getMessage());
-			throw e;
+			return false;
 		}
 		isConnected = true;
 		pledgeControl.setPhoneNumber(voice.getPhoneNumber());
+		this.user = user;
+		this.pass = pass;
+		return true;
 	}
 	
 	public boolean refreshSMS() {
@@ -137,13 +138,11 @@ public class GoogleVoiceConnector implements Runnable {
 
 	@Override
 	public void run() {
-		try {
-			connect();
-		} catch (IOException e) {
-			return;
+		if (!isConnected) {
+			if (!connect(user, pass))
+				return;
+			System.out.println("Connected to account " + getUserName());
 		}
-		
-		System.out.println("Connected to account " + getUserName());
 		
 		while (!shouldExit) {
 			System.out.println("Refreshing sms");

@@ -34,14 +34,16 @@ public class Launcher {
 		return copy;
 	}
 	
+	
 	/** 
 	 * @param args
 	 */
-	public static void main(String[] args) {
-		boolean runClient = false;
+	public static void main(final String[] args) {
 		String[] newArgs = args;
 		
 		if (args.length > 0) {
+			boolean runClient = false;
+			
 			if (args[0].equals("-s")) {
 				runClient = false;
 				newArgs = copyArgs(args,1, args.length-1);
@@ -49,11 +51,21 @@ public class Launcher {
 				runClient = true;
 				newArgs = copyArgs(args,1, args.length-1);
 			}
+
+			if (runClient)
+				PledgeControlPanel.main(newArgs);
+			else
+				PledgeDisplayFrame.main(newArgs);
+		} else {
+			Thread server = new Thread(new Runnable() {
+				@Override
+				public void run() {
+					PledgeDisplayFrame.main(args);
+				}
+			});
+
+			server.start();
+			PledgeControlPanel.main(args);
 		}
-		
-		if (runClient)
-			PledgeControlPanel.main(newArgs);
-		else
-			PledgeDisplayFrame.main(newArgs);
 	}
 }

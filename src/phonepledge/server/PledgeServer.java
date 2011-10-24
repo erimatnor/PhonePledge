@@ -35,7 +35,7 @@ import phonepledge.command.StatusCommand;
 
 
 public class PledgeServer implements Runnable {
-	public static final int SERVER_PORT = 6565;
+	public static final int SERVER_PORT = 34500;
 	ServerSocket sock;
 	ObjectOutputStream outStream;
 	boolean shouldExit = false;
@@ -307,6 +307,8 @@ public class PledgeServer implements Runnable {
 			return;
 		}
 	
+		System.out.println("Pledge server running on TCP port " + SERVER_PORT);
+		
 		while (!shouldExit) {
 			Socket clientSock = null;
 			

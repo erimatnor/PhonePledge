@@ -23,7 +23,10 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.security.CodeSource;
 
 import javax.imageio.ImageIO;
 import javax.swing.Box;
@@ -38,8 +41,8 @@ public class TickerLabel extends JComponent {
 	private static final long serialVersionUID = 1L;
 	private volatile int currOffset[] = { 0, 0 };
 	int ticksPerSecond = 100;
-	BufferedImage logoBlueBack = null;
-	Image logoBlueBackScaled = null;
+	BufferedImage tickerLogo = null;
+	Image tickerLogoScaled = null;
 	ImageIcon icon;
 	JPanel[] p = new JPanel[2];
 	int pIndex = 0;
@@ -58,8 +61,22 @@ public class TickerLabel extends JComponent {
 	volatile int tickerHz = 20;
 	
 	public TickerLabel(String[] newText) {
+		CodeSource codeSource = PledgeDisplayPanel.class.getProtectionDomain().getCodeSource();
+		File jarFile = null, logoFile = null;
+		
 		try {
-			logoBlueBack = ImageIO.read(getClass().getResource("pp-logo-small.png"));
+			jarFile = new File(codeSource.getLocation().toURI().getPath());
+			logoFile = new File(jarFile.getParentFile().getAbsolutePath() + 
+					"/ticker.png");
+		} catch (URISyntaxException e1) {
+			e1.printStackTrace();
+		}
+		
+		try {
+			if (logoFile != null && logoFile.exists())
+				tickerLogo = ImageIO.read(logoFile);
+			else
+				tickerLogo = ImageIO.read(getClass().getResource("pp-logo-small.png"));
 		} catch (IOException e) {
 			System.err.println("Could not load logo image");
 			e.printStackTrace();
@@ -74,8 +91,8 @@ public class TickerLabel extends JComponent {
 		p[pIndexOld] = new JPanel();
 		p[pIndex].setVisible(false);
 		p[pIndexOld].setVisible(false);
-		logoBlueBackScaled = logoBlueBack.getScaledInstance(-1, 40, Image.SCALE_SMOOTH);
-		icon = new ImageIcon(logoBlueBackScaled);
+		tickerLogoScaled = tickerLogo.getScaledInstance(-1, 40, Image.SCALE_SMOOTH);
+		icon = new ImageIcon(tickerLogoScaled);
 	}
 
 	public TickerLabel() {

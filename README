@@ -8,8 +8,69 @@ $ make
 
 To run:
 
-$ ./pp_server&
-$ ./pp_client [username password]
+In most OSes it is sufficient to just double click the jar
+file. Otherwise, run 'java -jar phonepledge.jar' in a terminal window.
 
-The username and password should match a Google voice account to use
-for PhonePledge.
+Configuration
+=============
+
+The pledge display window can be customized using a configuration file
+that should be named display.properties and put in the same directory
+as the phonpledge.jar file. The configuration file format is based on
+key-value pairs in the form "key=value" and currently supports the the
+following keys:
+
+NextSlideTimeout=NUMBER
+	Number of seconds between each slide
+
+TelephoneNumberFont=TEXT
+	Font of telephone number shown (Name of some system font, e.g., Arial)
+
+PledgeFont=TEXT
+	Sets the font of the Pledges shown in the center of the screen
+
+PledgeFontSize=NUMBER
+	Sets the font size of the Pledges shown in the center of the screen
+
+TickerFont=TEXT
+	Sets the font of the pledges in the Ticker
+
+TickerFontSize=NUMBER
+	Sets the font size of pledges in the Ticker
+
+NextPledgeTimeout=NUMBER
+	Timeout before showing next pledge (seconds)
+
+TickerHz=TEXT
+	How frequently the ticker should be updated (affects smoothness)
+
+TicksPerSecond=NUMBER
+	How "far" the ticker should move each second
+
+PledgeInstruction=TEXT
+	The instruction on how to send pledges (text above phone number)
+
+PhoneNumber=TEXT 
+	The phone number to send pledges to (this will probably 
+	be overridden once logged in to Google Voice)
+
+BackgroundColor=NUMBER,NUMBER,NUMBER
+	The RGB color code to use for the background of the pledge window
+	
+TickerColor=NUMBER,NUMBER,NUMBER
+	The RGB color code to use for the ticker background in the pledge window
+
+NOTE: most of these settings can also be changed from the control
+window.
+
+Changing the logos
+------------------
+
+- Put logo.png and ticker.png in phonepledge.jar directory.
+
+The logo in the lower left corner and in the ticker can be changed by
+placing the files logo.png and/or ticker.png in the same directory as
+the phonepledge.jar file. The corner logo should preferably have the
+same background as the pledge window's (white by default) and the
+ticker logo should have the same color as the ticker field (RGB values
+0,0,80 by default).

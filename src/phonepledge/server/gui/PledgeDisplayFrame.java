@@ -59,10 +59,10 @@ public class PledgeDisplayFrame extends JFrame
 				//System.out.println("Pressed key " + e.getKeyChar());
 				
 				if ((e.isAltDown() || e.isMetaDown()) && 
-						e.getKeyChar() == 'g') {
+						e.getKeyChar() == 'f') {
 					toggleFullScreen();
 				} else if ((e.isAltDown() || e.isMetaDown()) 
-						&& e.getKeyChar() == 'f') {
+						&& e.getKeyChar() == 'g') {
 					toggleFullScreenHardware();
 				}
 			}
@@ -86,7 +86,7 @@ public class PledgeDisplayFrame extends JFrame
 
 		// This is a bit of a hack to support dual screen displays.
 		// We want to find a better way to figure out which device we should
-		// go full screen on, e.g., the one where the JFrame is currently on.
+		// go fullscreen on, e.g., the one where the JFrame is currently on.
 		if (devices.length == 2)
 			device = devices[1];
 		else
@@ -121,7 +121,7 @@ public class PledgeDisplayFrame extends JFrame
 
 		// This is a bit of a hack to support dual screen displays.
 		// We want to find a better way to figure out which device we should
-		// go full screen on, e.g., the one where the JFrame is currently on.
+		// go fullscreen on, e.g., the one where the JFrame is currently on.
 		if (devices.length == 2)
 			device = devices[1];
 		else

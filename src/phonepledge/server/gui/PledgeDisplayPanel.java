@@ -31,9 +31,14 @@ import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.security.CodeSource;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -75,8 +80,8 @@ public class PledgeDisplayPanel extends JPanel
 	private HashSet<Pledge> pledgeHash = new HashSet<Pledge>();
 	// List containing all pledges received so far, retaining order
 	private ArrayList<Pledge> pledgeList = new ArrayList<Pledge>();
-	static final Color phonepledgeBlue = new Color(0, 0, 180);
-	static final Color phonepledgeBlue2 = new Color(0, 0, 80);
+	static Color tickerColor = new Color(0, 0, 80);
+	static Color backgroundColor = Color.white;
 	// Position and thickness of blue L
 	int cornerX;
 	int cornerY;
@@ -86,10 +91,24 @@ public class PledgeDisplayPanel extends JPanel
 	RenderingHints renderHints;
 	
 	public PledgeDisplayPanel() {
+		CodeSource codeSource = PledgeDisplayPanel.class.getProtectionDomain().getCodeSource();
+		File jarFile = null, logoFile = null;
+		
 		try {
-			logo = ImageIO.read(getClass().getResource("pp-logo-large.png"));
+			jarFile = new File(codeSource.getLocation().toURI().getPath());
+			logoFile = new File(jarFile.getParentFile().getAbsolutePath() + 
+					"/logo.png");
+		} catch (URISyntaxException e1) {
+			e1.printStackTrace();
+		}
+		
+		try {
+			if (logoFile != null && logoFile.exists())
+				logo = ImageIO.read(logoFile);
+			else 
+				logo = ImageIO.read(getClass().getResource("pp-logo-large.png"));
 		} catch (IOException e) {
-			System.err.println("Could not load background image");
+			System.err.println("Could not load logo");
 			e.printStackTrace();
 		}
 		
@@ -102,6 +121,7 @@ public class PledgeDisplayPanel extends JPanel
 		
 		idleTimer = new Timer(idleTimeout, new IdleTimeout());
 		idleTimer.start();
+		setBackground(backgroundColor);
 		setForeground(Color.black);
 		setLayout(null);
 		renderHints = new RenderingHints(
@@ -201,7 +221,39 @@ public class PledgeDisplayPanel extends JPanel
 		
 		if ((value = (String)props.getProperty("PledgeInstruction")) != null) {
 			System.out.println("PledgeInstruction=" + value);
+			pledgeInstruction = value;
+		}
+		
+		if ((value = (String)props.getProperty("PhoneNumber")) != null) {
+			System.out.println("PhoneNumber=" + value);
 			phoneNumber = value;
+		}
+
+		if ((value = (String)props.getProperty("TickerColor")) != null) {
+			String rgbstr[] = value.split(",", 0);
+			
+			if (rgbstr.length > 2) {
+				int rgb[] = new int[3];
+		
+				for (int i = 0; i < rgb.length; i++)
+					rgb[i] = Integer.parseInt(rgbstr[i]);
+				
+				tickerColor = new Color(rgb[0], rgb[1], rgb[2]);
+				System.out.println("TickerColor=" + value);
+			}
+		}
+		if ((value = (String)props.getProperty("BackgroundColor")) != null) {
+			String rgbstr[] = value.split(",", 0);
+			
+			if (rgbstr.length > 2) {
+				int rgb[] = new int[3];
+		
+				for (int i = 0; i < rgb.length; i++)
+					rgb[i] = Integer.parseInt(rgbstr[i]);
+				
+				backgroundColor = new Color(rgb[0], rgb[1], rgb[2]);
+				System.out.println("BackgroundColor=" + value);
+			}
 		}
 	}
 	
@@ -263,7 +315,7 @@ public class PledgeDisplayPanel extends JPanel
 		double yOffset = (double)height / 12;
 		
 		// Fill with white background
-		g2.setColor(Color.white);
+		g2.setColor(backgroundColor);
 		g2.fillRect(0, 0, width, height);
 
 		int logoWidth = (int)(width / 4);
@@ -279,7 +331,7 @@ public class PledgeDisplayPanel extends JPanel
 		g2.setFont(new Font(telephoneNrFontName, Font.BOLD, width / 30));
 		int phoneNumberWidth = g2.getFontMetrics().stringWidth(phoneNumber);
 		int phoneNumberHeight = g2.getFontMetrics().getHeight();
-		g2.setColor(phonepledgeBlue2);
+		g2.setColor(tickerColor);
 		
 		// Move text down a bit
 		y += 15;
@@ -302,7 +354,7 @@ public class PledgeDisplayPanel extends JPanel
 		double rectHeight = height - (scaledLogo.getHeight(this) + yOffset*2.5);
 		
 		// Draw blue L
-		g2.setColor(phonepledgeBlue2);
+		g2.setColor(tickerColor);
 		g2.fillRect(cornerX, (int)yOffset, 
 				(int)rectWidth, (int)rectHeight);
 		

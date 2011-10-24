@@ -92,6 +92,7 @@ public class PledgeControlPanel extends JPanel implements
     private final JSpinner tickerSpeedSpinner;
     private final JSpinner transitionSpeedSpinner;
     private GoogleVoiceConnector gvc = null;
+    private Thread gvcThread = null;
     
     public PledgeControlPanel() {
         super(new BorderLayout());
@@ -649,6 +650,9 @@ public class PledgeControlPanel extends JPanel implements
 			pledgeClient.sendCommand(cmd);
 		}
 	}
+	
+	String loginCredentials[] = { "", "" };
+	boolean sendSmsReply = false;
     /**
      * Create the GUI and show it.  For thread safety,
      * this method should be invoked from the
@@ -667,33 +671,61 @@ public class PledgeControlPanel extends JPanel implements
         //Display the window.
         frame.pack();
         frame.setVisible(true);
+        GoogleVoiceConnector gvc = new GoogleVoiceConnector(ps);
+
+    	gvc.setShouldSendReply(ps.sendSmsReply);
+
+        while (true) {
+        	if (ps.loginCredentials[0].length() == 0)
+        		ps.loginCredentials = LoginDialog.showDialog(frame);
+
+        	if (!gvc.connect(ps.loginCredentials[0], 
+					ps.loginCredentials[1])) {
+        		JOptionPane.showMessageDialog(ps.getParent(),
+        				"Could not connect to the Google Voice account '" + 
+        						ps.loginCredentials[0] + "'\n" +
+        						"Please make sure the username and password is correct",
+        						"Login Error",
+        						JOptionPane.ERROR_MESSAGE);
+        		ps.loginCredentials[0] = "";
+        	} else {
+        		break;
+        	}
+        }
+        
+    	ps.start();
+		ps.gvcThread = new Thread(gvc);
+		ps.gvcThread.start();
     }
-   
+    
     public static void main(String[] args) {
-    	// default Google Voice user name
-		String username = "username";
-		// default Google Voice password 
-		String password = "password";
 		int argc = 0;
 		
-		if (args.length == 2) {
-			username = args[argc++];
-			password = args[argc++];
-		}
+		System.out.println("Launching control window");
 		
 		final PledgeControlPanel pledgeControl = new PledgeControlPanel();
+		
+		if (args.length == 2) {
+			pledgeControl.loginCredentials[0] = args[argc++];
+			pledgeControl.loginCredentials[1] = args[argc++];
+		}
+		
 
-    	if (!pledgeControl.start())
-    		return;
-
-		System.out.println("Username: " + username);
+		System.out.println("Username: " + pledgeControl.loginCredentials[0]);
+		
+		while (argc < args.length) {
+			if (args[argc].equals("-r")) {
+				System.out.println("Setting SMS reply mode.");
+				pledgeControl.sendSmsReply = true;
+			}
+			argc++; 
+		}
 		
         //Schedule a job for the event-dispatching thread:
         //creating and showing this application's GUI.
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-            	
-                createAndShowGUI(pledgeControl);
+            	createAndShowGUI(pledgeControl);
                 /*
                  * Test Pledges
                 for (int i = 0; i < 500; i++) {
@@ -702,18 +734,5 @@ public class PledgeControlPanel extends JPanel implements
                 */
             }
         });
-
-		GoogleVoiceConnector gvc = new GoogleVoiceConnector(username, 
-				password, pledgeControl);
-		
-		while (argc < args.length) {
-			if (args[argc].equals("-r")) {
-				System.out.println("Setting SMS reply mode.");
-				gvc.setShouldSendReply(true);
-			}
-			argc++; 
-		}
-		
-		gvc.run();
     }
 }

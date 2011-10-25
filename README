@@ -2,14 +2,21 @@ For Licensing and copying information, see the file COPYING.
 
 PhonePledge is an application for fundraising events. The application
 allows you to manage and accept donation pledges via SMS, which can
-then be displayed live on, e.g., big projector screen.
+then be displayed live on, e.g., a big projector screen.
+
+PhonePledge uses Google Voice as the backend, and thus requires a
+Google Voice account. The Google Voice connectivity is provided by the
+unofficial Java API library found at:
+
+http://code.google.com/p/google-voice-java/
 
 Building
 ========
 
-Compile with "make" or Eclipse. Requires a Java SDK installed on the system.
+Compile with "make" or Eclipse. Requires a Java SDK installed on the
+system.
 
-To compile:
+To compile without Eclipse in a terminal window, type:
 
 $ make
 

@@ -27,7 +27,11 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.Properties;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -93,6 +97,7 @@ public class PledgeControlPanel extends JPanel implements
     private final JSpinner transitionSpeedSpinner;
     private GoogleVoiceConnector gvc = null;
     private Thread gvcThread = null;
+    private String smsReplyMessage = "Thank you for your pledge!";
     
     public PledgeControlPanel() {
         super(new BorderLayout());
@@ -151,6 +156,7 @@ public class PledgeControlPanel extends JPanel implements
         acceptButton.setActionCommand(acceptString);
         acceptButton.addActionListener(acceptRejectListener);
         acceptButton.setEnabled(false);
+        acceptButton.setToolTipText("Accept selected pledge and queue it for display");
         //System.out.println("Button width=" + acceptButton.getWidth());
         //Dimension buttonSize = new Dimension(acceptButton.getWidth() + 20, acceptButton.getHeight());
         //acceptButton.setMinimumSize(buttonSize);
@@ -161,6 +167,7 @@ public class PledgeControlPanel extends JPanel implements
         rejectButton.setActionCommand(rejectString);
         rejectButton.addActionListener(acceptRejectListener);
         rejectButton.setEnabled(false);
+        rejectButton.setToolTipText("Reject and do not display selected pledge");
         //rejectButton.setMinimumSize(buttonSize);
         //rejectButton.setPreferredSize(buttonSize);
         //rejectButton.setSize(buttonSize);
@@ -169,9 +176,11 @@ public class PledgeControlPanel extends JPanel implements
         AddListener addListener = new AddListener(addButton);
         addButton.setActionCommand(addString);
         addButton.addActionListener(addListener);
+        addButton.setToolTipText("Add new pledge");
 
         final JButton nextButton = new JButton(nextString);
         nextButton.setActionCommand(nextString);
+        nextButton.setToolTipText("Show next slide or queued pledge");
         nextButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -184,16 +193,19 @@ public class PledgeControlPanel extends JPanel implements
         final ModeButtonListener modeButtonListener = new ModeButtonListener();
         slideModeButton = new JRadioButton(slideString);
         slideModeButton.addActionListener(modeButtonListener);
+        slideModeButton.setToolTipText("Show slides instead of pledges. Accepting a new pledge will automatically show pledges again");
+        
         pledgeModeButton = new JRadioButton(pledgeString);
         pledgeModeButton.addActionListener(modeButtonListener);
-        
         pledgeModeButton.setSelected(true);
+        pledgeModeButton.setToolTipText("Show pledges instead of slides. If no pledges are currently queued, then already shown pledges will be queued again");
         final ButtonGroup modeButtonGroup = new ButtonGroup();
         modeButtonGroup.add(slideModeButton);
         modeButtonGroup.add(pledgeModeButton);
         
         final JCheckBox smsReplyBox = new JCheckBox("SMS Reply");
         smsReplyBox.setSelected(false);
+        smsReplyBox.setToolTipText("Send a reply SMS to the originator of every incoming pledge");
         smsReplyBox.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
@@ -205,12 +217,14 @@ public class PledgeControlPanel extends JPanel implements
         pledgeInput = new JTextField(20);
         pledgeInput.addActionListener(addListener);
         pledgeInput.getDocument().addDocumentListener(addListener);
-       
+        pledgeInput.setToolTipText("Manually input a new pledge");
+        
         tickerSpeedSpinner = new JSpinner(new SpinnerNumberModel(1, 0, 500, 20));
         tickerSpeedSpinner.addChangeListener(this);
-        
+        tickerSpeedSpinner.setToolTipText("Set pledge ticker speed");
         transitionSpeedSpinner = new JSpinner(new SpinnerNumberModel(20, 0, 100, 1));
         transitionSpeedSpinner.addChangeListener(this);
+        transitionSpeedSpinner.setToolTipText("Set pledge or slide transition timeout");
         
         final JPanel pledgeSpeedPane = new JPanel();
         pledgeSpeedPane.setLayout(new BoxLayout(pledgeSpeedPane,
@@ -264,8 +278,39 @@ public class PledgeControlPanel extends JPanel implements
         add(listScrollPane, BorderLayout.CENTER);
         add(bottomPane, BorderLayout.PAGE_END);
         
+        readProperties();
+        
         pledgeClient = new PledgeClient(this);
-      
+    }
+    
+    private void readProperties() {
+		Properties props = new Properties();
+		
+		try {
+			props.load(new FileInputStream("control.properties"));
+		} catch (FileNotFoundException e) {
+			return;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return;
+		}
+		
+		String value;
+		
+		if ((value = (String)props.getProperty("SmsReplyMsg")) != null) {
+			smsReplyMessage = value;
+			System.out.println("SmsReplyMsg=" + value);
+		} 
+		
+		if ((value = (String)props.getProperty("GoogleVoiceUser")) != null) {
+			loginCredentials[0] = value;
+			System.out.println("GoogleVoiceUser=" + value);
+		}
+		
+		if ((value = (String)props.getProperty("GoogleVoicePassword")) != null) {
+			loginCredentials[1] = value;
+			System.out.println("GoogleVoicePassword=" + value);
+		}
     }
     
     public boolean start() {
@@ -283,6 +328,7 @@ public class PledgeControlPanel extends JPanel implements
     
     public void setGoogleVoiceConnector(GoogleVoiceConnector gvc) {
     	this.gvc = gvc;
+        gvc.setReplyMessage(smsReplyMessage);
     }
     
     public void setPhoneNumber(String phoneNumber) {
@@ -363,8 +409,9 @@ public class PledgeControlPanel extends JPanel implements
 			break;
 		}
 
-		// Ensure selected row is visible
-		if (!multirow && (index < (tableModel.getRowCount() - 1))) {
+		// If single row is selected, make sure it is visible and 
+		// move to the next one
+		if (rows.length == 1 && (index < (tableModel.getRowCount() - 1))) {
 			table.setRowSelectionInterval(index + 1, index + 1);
 			Rectangle rect = table.getCellRect(index + 1, 0, true);
 			table.scrollRectToVisible(rect);
@@ -458,7 +505,7 @@ public class PledgeControlPanel extends JPanel implements
 	}
 
 	public class MyTableCellRenderer extends JLabel implements
-			TableCellRenderer {
+	TableCellRenderer {
 		private static final long serialVersionUID = 1L;
 		boolean isBordered;
 
@@ -495,7 +542,7 @@ public class PledgeControlPanel extends JPanel implements
 			} else
 				setBorder(null);
 
-	return this;
+			return this;
 		}
 	}
 
@@ -675,6 +722,8 @@ public class PledgeControlPanel extends JPanel implements
 
     	gvc.setShouldSendReply(ps.sendSmsReply);
 
+    	ps.setGoogleVoiceConnector(gvc);
+    	
         while (true) {
         	if (ps.loginCredentials[0].length() == 0)
         		ps.loginCredentials = LoginDialog.showDialog(frame);

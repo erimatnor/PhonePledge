@@ -14,11 +14,15 @@ file. Otherwise, run 'java -jar phonepledge.jar' in a terminal window.
 Configuration
 =============
 
-The pledge display window can be customized using a configuration file
-that should be named display.properties and put in the same directory
-as the phonpledge.jar file. The configuration file format is based on
-key-value pairs in the form "key=value" and currently supports the the
-following keys:
+The PhonePledge program consists of the 'control' window and the
+'display' window. Each of these can be configured separately using two
+configuration files: control.properties and display.properties,
+respectively. These should be put in the same directory as the
+phonepledge.jar to be detected. The configuration file format is based
+on key-value pairs in the form "key=value" pairs.
+
+The display.properties configuration file supports the following
+key-value pairs:
 
 NextSlideTimeout=NUMBER
 	Number of seconds between each slide
@@ -62,6 +66,20 @@ TickerColor=NUMBER,NUMBER,NUMBER
 
 NOTE: most of these settings can also be changed from the control
 window.
+
+The 'control.properties' configuration file supports the following
+key-value pairs:
+
+SmsReplyMsg=TEXT
+	The text message to send as a reply to incoming pledges
+
+GoogleVoiceUser=TEXT
+	The username for the Google Voice account. If set, the login
+	dialog box will not be shown at startup
+
+GoogleVoicePassword=TEXT
+	The password for the Google Voice account
+
 
 Changing the logos
 ------------------

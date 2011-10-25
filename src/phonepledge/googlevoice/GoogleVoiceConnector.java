@@ -37,7 +37,7 @@ public class GoogleVoiceConnector implements Runnable {
 	Thread googleVoiceThread = null;
 	HashSet<Pledge> pledgeSet = new HashSet<Pledge>();
 	PledgeControlPanel pledgeControl;
-	String replyMessage = "Thank you for your pledge!";
+	String replyMessage = null;
 	long refreshCounter = 0;
 	
 	public GoogleVoiceConnector(PledgeControlPanel ps) {
@@ -118,7 +118,9 @@ public class GoogleVoiceConnector implements Runnable {
 					pledgeSet.add(p);
 					pledgeControl.addPledge(p);
 					
-					if (shouldSendReply && refreshCounter != 0) {
+					if (shouldSendReply &&
+						replyMessage != null && 
+						refreshCounter != 0) {
 						System.out.println("sending reply to " + sms.getFrom().getNumber());
 						
 						try {

@@ -1,5 +1,12 @@
 For Licensing and copying information, see the file COPYING.
 
+PhonePledge is an application for fundraising events. The application
+allows you to manage and accept donation pledges via SMS, which can
+then be displayed live on, e.g., big projector screen.
+
+Building
+========
+
 Compile with "make" or Eclipse. Requires a Java SDK installed on the system.
 
 To compile:
@@ -15,13 +22,13 @@ Configuration
 =============
 
 The PhonePledge program consists of the 'control' window and the
-'display' window. Each of these can be configured separately using two
-configuration files: control.properties and display.properties,
-respectively. These should be put in the same directory as the
-phonepledge.jar to be detected. The configuration file format is based
-on key-value pairs in the form "key=value" pairs.
+pledge 'display' window. Each of these can be configured separately
+using two configuration files: control.properties and
+display.properties, respectively. These should be put in the same
+directory as the phonepledge.jar to be detected. The configuration
+file format is based on key-value pairs in the form "key=value" pairs.
 
-The display.properties configuration file supports the following
+The 'display.properties' configuration file supports the following
 key-value pairs:
 
 NextSlideTimeout=NUMBER
@@ -59,10 +66,12 @@ PhoneNumber=TEXT
 	be overridden once logged in to Google Voice)
 
 BackgroundColor=NUMBER,NUMBER,NUMBER
-	The RGB color code to use for the background of the pledge window
+	The RGB color code to use for the background of the display
+	window
 	
 TickerColor=NUMBER,NUMBER,NUMBER
-	The RGB color code to use for the ticker background in the pledge window
+	The RGB color code to use for the ticker background in the
+	display window
 
 NOTE: most of these settings can also be changed from the control
 window.
@@ -92,3 +101,27 @@ the phonepledge.jar file. The corner logo should preferably have the
 same background as the pledge window's (white by default) and the
 ticker logo should have the same color as the ticker field (RGB values
 0,0,80 by default).
+
+Keyboard Shortcuts
+==================
+
+Control window:
+
+a		- accept selected pledge
+
+r 		- reject selected pledge
+
+up/down arrow	- Move up/down in pledge list
+
+Display window:
+
+ctrl/cmd-f	- Toggle full-screen (software mode)
+ctrl/cmd-g	- Toggle full-screen (hardware mode)
+
+NOTE on full-screen modes:
+
+Hardware mode works well on single screen displays. However, on
+multi-screen displays, the hardware mode (with full acceleration)
+causes one display to be black. This is because hardware mode can only
+accelerate one display at a time. Therefore, software mode is more
+useful on multi-screen displays.

@@ -16,26 +16,25 @@
  */
 package phonepledge.server.gui;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.awt.KeyEventDispatcher;
+import java.awt.KeyboardFocusManager;
 import java.awt.Rectangle;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-
+import java.awt.event.WindowFocusListener;
 import javax.swing.JFrame;
 
 import phonepledge.server.PledgeServer;
 
 
 public class PledgeDisplayFrame extends JFrame 
-	implements MouseListener, WindowListener, FocusListener {
+	implements MouseListener, WindowFocusListener {
 	/**
 	 * 
 	 */
@@ -43,20 +42,36 @@ public class PledgeDisplayFrame extends JFrame
 	private boolean isFullScreen = false;
 	private boolean isFullScreenHardware = false;
 	private Dimension winDimension = new Dimension(800, 600);
+	boolean windowHasFocus = false;
 	
 	public PledgeDisplayFrame() {
 		super("PhonePledge");
 		
 		this.setFocusable(true);
 		
-		addKeyListener(new KeyListener() {
-			@Override
-			public void keyPressed(KeyEvent e) {
-			}
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-				//System.out.println("Pressed key " + e.getKeyChar());
+		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
+	    manager.addKeyEventDispatcher(new MyDispatcher(this));
+		
+		addMouseListener(this);
+		addWindowFocusListener(this);
+	}
+	
+	private class MyDispatcher implements KeyEventDispatcher {
+		PledgeDisplayFrame f;
+		
+		MyDispatcher(PledgeDisplayFrame f) {
+			this.f = f;
+		}
+		
+	    @Override
+	    public boolean dispatchKeyEvent(KeyEvent e) {
+	    	
+	    	if (!f.windowHasFocus)
+	    		return false;
+	    	
+	        if (e.getID() == KeyEvent.KEY_PRESSED) {
+	        } else if (e.getID() == KeyEvent.KEY_RELEASED) {
+	            //System.out.println("Released key " + e.getKeyChar());
 				
 				if ((e.isAltDown() || e.isMetaDown()) && 
 						e.getKeyChar() == 'f') {
@@ -64,16 +79,11 @@ public class PledgeDisplayFrame extends JFrame
 				} else if ((e.isAltDown() || e.isMetaDown()) 
 						&& e.getKeyChar() == 'g') {
 					toggleFullScreenHardware();
-				}
-			}
-
-			@Override
-			public void keyTyped(KeyEvent e) {
-				
-			}
-		});
-		
-		addMouseListener(this);
+				}	
+	        } else if (e.getID() == KeyEvent.KEY_TYPED) {
+	        }
+	        return false;
+	    }
 	}
 	
 	private void toggleFullScreen() {
@@ -181,47 +191,6 @@ public class PledgeDisplayFrame extends JFrame
 		//System.out.println("Frame: Mouse released");
 		this.requestFocus();
 	}
-
-	@Override
-	public void windowActivated(WindowEvent e) {
-		//System.out.println("Window activated");
-	}
-
-	@Override
-	public void windowClosed(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void windowClosing(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void windowDeactivated(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void windowDeiconified(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void windowIconified(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void windowOpened(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
 	
 	public static void createAndShowGUI(PledgeDisplayPanel newContentPane) {
 		PledgeDisplayFrame frame = new PledgeDisplayFrame();
@@ -252,14 +221,14 @@ public class PledgeDisplayFrame extends JFrame
 	}
 
 	@Override
-	public void focusGained(FocusEvent e) {
-		//System.out.println("Frame: Focus gained");
-		
+	public void windowGainedFocus(WindowEvent arg0) {
+		//System.out.println("Window gained focus");
+		windowHasFocus = true;
 	}
 
 	@Override
-	public void focusLost(FocusEvent e) {
-		//System.out.println("Frame: Focus lost");
-		
+	public void windowLostFocus(WindowEvent arg0) {
+		//System.out.println("Window lost focus");
+		windowHasFocus = false;
 	}
 }

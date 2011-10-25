@@ -331,8 +331,25 @@ public class PledgeControlPanel extends JPanel implements
         gvc.setReplyMessage(smsReplyMessage);
     }
     
+    // Tries to parse a phone number and convert it to a nice 'dashed' format
+    private String phoneNumberBeautify(String number) {
+    	String niceNumber = number;
+    	
+    	if (number.startsWith("+1") && number.length() == 12) {
+    		// Omit the +
+    		niceNumber = number.substring(1, 2);
+    		niceNumber += "-";
+    		niceNumber += number.substring(2, 5);
+    		niceNumber += "-";
+    		niceNumber += number.substring(5, 8);
+    		niceNumber += "-";
+    		niceNumber += number.substring(8, 12);
+    	}
+    	return niceNumber;
+    }
     public void setPhoneNumber(String phoneNumber) {
-    	pledgeClient.sendCommand(new DisplayCommand(DisplayCommand.CMD_SET_PHONE_NUMBER, phoneNumber));
+    	pledgeClient.sendCommand(new DisplayCommand(DisplayCommand.CMD_SET_PHONE_NUMBER,
+    				phoneNumberBeautify(phoneNumber)));
     }
     
     class ModeButtonListener implements ActionListener {

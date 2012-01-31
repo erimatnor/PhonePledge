@@ -12,34 +12,34 @@ unofficial Java API library found at:
 
 http://code.google.com/p/google-voice-java/
 
-Overview
-========
+Functional Overview
+===================
 
-PhonePledge consists of the 'control' window and the pledge 'display'
-window. The control window allows a person to manage and selectively
-accept donation pledges that arrive via SMS to a Google Voice account,
-while the display window will show the "accepted" pledges. Accepted
-pledges are put in a queue for being displayed one-at-a-time in the
-display window. When the queue is empty (e.g., at times when no new
-pledges are arriving or being accepted), the display window will flip
-into "slide" mode, where it loops through a set of images that the
-user has provided (for, e.g., promotion purposes). Thus, the display
-window operates in two modes: "pledge" mode or "display" mode. These
-modes are typically set automatically based on the state of the pledge
+The PhonePledge application consists of two windows: the 'control'
+window and the pledge 'display' window. The control window allows a
+person to manage and selectively accept donation pledges that arrive
+via SMS to a Google Voice account, while the display window shows
+"accepted" pledges. Accepted pledges are put in a queue for being
+displayed one-at-a-time in the display window. When the queue is empty
+(e.g., at times of low pledge activity), the display window will flip
+into "slide" mode, looping through a set of images configured by the
+user (for, e.g., promotion purposes). Thus, the display window
+operates in two modes: "pledge" mode or "display" mode. These modes
+are typically set automatically based on the state of the pledge
 display queue, but can also be overridden via the control window. For
 instance, setting pledge mode when the queue is empty (e.g., when the
 app has automatically switched to slide mode) will repopulate the
 pledge display queue with all previously accepted pledges and loop
 through them again.
 
-PhonePledge can send an automatic reply (e.g., a thank you note) to
-the originator of all incoming donation pledges. The default reply
-message can be changed using a configuration file as described
-below. The reply functionality must be enabled after the program has
-started, as it would otherwise send replies to all SMS originators
-every time it downloads the list of SMSes from the Google Voice
-account on startup. Use the reply functionality with caution---you do
-not want to spam your donors with lots of duplicate thank you notes.
+PhonePledge can send automatic replies (e.g., "thank you" notes) to
+the originators of incoming pledges. The default reply message can be
+changed using a configuration file as described below. The reply
+functionality must be enabled after the program has started, as it
+would otherwise send replies to all SMS originators every time it
+downloads the list of SMSes from the Google Voice account on
+startup. Use the reply functionality with caution---you do not want to
+spam your donors with lots of duplicate thank you notes.
 
 Building
 ========
@@ -143,8 +143,8 @@ defined as described above.
 Adding Slides
 =============
 
-Slides that are to be displayed during times of little pledge activity
-should be put is a slides subdirectory in the same directory as the
+Slides that are to be displayed during times of low pledge activity
+should be put in a slides subdirectory of the directory containing
 phonepledge.jar. The slides should be image files (most common formats
 work) and they will be shown in the order of their file names. So, in
 order to force a specific order it is convenient to name the files,

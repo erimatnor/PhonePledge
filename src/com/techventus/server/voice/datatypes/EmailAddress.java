@@ -18,17 +18,34 @@ import com.techventus.server.voice.util.ParsingUtil;
  */
 public class EmailAddress {
 	String address;
+	
+	/**
+	 * 
+	 * @param pId
+	 */
 	public EmailAddress(String pId) {
 		address = pId;
 	}
+	
 	public String toString() {
 		String ret="{address="+address+"}";	
 		return ret;
 	}
+	
+	/**
+	 * 
+	 * @param phonesJSON
+	 * @throws JSONException
+	 */
 	public EmailAddress(JSONObject phonesJSON) throws JSONException {
 		if(phonesJSON.has("emailAddresses")) address = phonesJSON.getString("emailAddresses");
 	}
 		
+	/**
+	 * 
+	 * @param jsonPart
+	 * @return List<EmailAddress>
+	 */
 	public final static List<EmailAddress> createEmailAddressListFromJsonPartResponse(String jsonPart) { 
 		List<EmailAddress> emailAddresses = new ArrayList<EmailAddress>();
 		if(jsonPart!=null &! jsonPart.equals("")) {
@@ -46,6 +63,11 @@ public class EmailAddress {
 		return address;
 	}
 
+	/**
+	 * 
+	 * @param settingsJSON
+	 * @return EmailAddress[]
+	 */
 	public final static EmailAddress[] createArrayFromJsonObject(JSONObject settingsJSON) { 
 		JSONArray addresses;
 		EmailAddress[] ret;
@@ -65,12 +87,14 @@ public class EmailAddress {
 		}
 		return ret;
 	}
+	
 	/**
 	 * @return the address
 	 */
 	public String getAddress() {
 		return address;
 	}
+	
 	/**
 	 * @param address the address to set
 	 */

@@ -43,7 +43,7 @@ public class Setting {
 	private String[] smsNotifications;
 	private boolean smsToEmailActive;
 	private boolean smsToEmailSubject;
-	private int spam;
+	private String spam;
 	private String timezone;
 	private boolean useDidAsCallerId;
 	private boolean useDidAsSource;
@@ -70,7 +70,7 @@ public class Setting {
 		if(!saveMode || saveMode && settingsJSON.has("smsNotifications")) smsNotifications = ParsingUtil.jsonStringArrayToStringArray(settingsJSON.getJSONArray("smsNotifications"));
 		if(!saveMode || saveMode && settingsJSON.has("smsToEmailActive")) smsToEmailActive =  settingsJSON.getBoolean("smsToEmailActive");
 		if(!saveMode || saveMode && settingsJSON.has("smsToEmailSubject")) smsToEmailSubject = settingsJSON.getBoolean("smsToEmailSubject");
-		if(!saveMode || saveMode && settingsJSON.has("spam")) spam = settingsJSON.getInt("spam");
+		if(!saveMode || saveMode && settingsJSON.has("spam")) spam = settingsJSON.getString("spam");
 		if(!saveMode || saveMode && settingsJSON.has("timezone")) timezone = settingsJSON.getString("timezone");
 		if(!saveMode || saveMode && settingsJSON.has("useDidAsCallerId")) useDidAsCallerId = settingsJSON.getBoolean("useDidAsCallerId");
 		if(!saveMode || saveMode && settingsJSON.has("useDidAsSource")) useDidAsSource = settingsJSON.getBoolean("useDidAsSource");
@@ -93,6 +93,11 @@ public class Setting {
 		return toJsonObject().toString();
 	}
 	
+	/**
+	 * Convert this Settings Object to its JsonObject Representation.
+	 *
+	 * @return the jSON object
+	 */
 	public JSONObject toJsonObject(){ 
 		JSONObject settingsO = new JSONObject();
 		try { 
@@ -327,7 +332,7 @@ public class Setting {
 	/**
 	 * @return the spam
 	 */
-	public int getSpam() {
+	public String getSpam() {
 		return spam;
 	}
 
@@ -502,7 +507,7 @@ public class Setting {
 	/**
 	 * @param spam the spam to set
 	 */
-	public void setSpam(int spam) {
+	public void setSpam(String spam) {
 		this.spam = spam;
 	}
 

@@ -102,8 +102,26 @@ public class SMSParser {
 		// Select the threads using XPath queries.
 		@SuppressWarnings("unchecked")
 		List<Element> elements = doc.selectNodes(XPathQuery.MESSAGE_ID);
+//		int i = -1;
 		for (Element element : elements) {
+//			System.out.println(element.getStringValue());
+//			i++;
+				//DEBUG
+			if(element==null){
+				continue;
+			}
+//				Contact contact=null;
+//					try{
 			Contact contact = parseContact(element);
+//					}catch(Exception e){
+////						System.err.println("Exception element number "+i);
+////						System.err.println(element.getStringValue());
+//						e.printStackTrace();
+//					}
+//				if(contact==null){
+//					System.err.println("NULL CONTACT "+element);
+//					
+//				}
 			SMSThread smsthread = threadMap.get(element.attribute(
 					GoogleVoice.THREAD_ID).getText());
 			smsthread.setContact(contact);
@@ -129,6 +147,27 @@ public class SMSParser {
 				.selectSingleNode(XPathQuery.MESSAGE_PORTRAIT));
 		String phoneNumber = phoneNumberNode == null ? name
 				: parsePhoneNumber(phoneNumberNode.getText());
+		
+		
+		//TODO TEST SIMPLIFY
+//		System.out.println("Parsing Contact...");
+		//JLM Phone Number Correction
+		List e = element.selectNodes(XPathQuery.MESSAGE_QUICKCALL);
+		
+		for(Object o:e){
+			Node n = (Node)o;
+			String res = n.selectSingleNode(XPathQuery.MESSAGE_BOLD).getText();
+			//System.out.println(o);
+			res =res.replace("(", "").replace(")", "").replace(" ", "").replace("-", "");
+			phoneNumber = res;
+			if (phoneNumber.indexOf("+") == -1) {
+				phoneNumber = "+1" + phoneNumber;
+			}
+//			System.out.println(phoneNumber);
+			
+		}	
+		
+		
 		return new Contact(name, "", phoneNumber, imgURL);
 	}
 
@@ -153,8 +192,13 @@ public class SMSParser {
 				String from = element.selectSingleNode(
 						XPathQuery.MESSAGE_SMS_FROM).getText().replaceAll(":",
 						"").trim();
-				String text = element.selectSingleNode(
-						XPathQuery.MESSAGE_SMS_TEXT).getText().trim();
+//				String text = element.selectSingleNode(
+//						XPathQuery.MESSAGE_SMS_TEXT).getText().trim();
+				//SEE ISSUE 19 Comment 5
+				String text = "";
+				 if (element.selectSingleNode(XPathQuery.MESSAGE_SMS_TEXT) != null) {
+				     text = element.selectSingleNode(XPathQuery.MESSAGE_SMS_TEXT).getText().trim();
+				 }
 				String dateTime = element.selectSingleNode(
 						XPathQuery.MESSAGE_SMS_TIME).getText().trim();
 				Contact contact = thread.getContact();
@@ -193,10 +237,6 @@ public class SMSParser {
 			JSONObject json = new JSONObject(jsonResponse);
 			JSONObject messages = json.getJSONObject(JSONContants.MESSAGES);
 			JSONArray names = messages.names();
-			
-			if (names == null)
-				return result;
-			
 			for (int i = 0; i < names.length(); i++) {
 				JSONObject jsonSmsThread = messages.getJSONObject(names
 						.getString(i));
@@ -274,11 +314,14 @@ public class SMSParser {
 		public static final String MESSAGE_SMS_TEXT = "descendant::span[@class='gc-message-sms-text']";
 		public static final String MESSAGE_SMS_TIME = "descendant::span[@class='gc-message-sms-time']";
 		public static final String MESSAGE_SMS_ROW = "descendant::div[@class='gc-message-sms-row']";
-		public static final String MESSAGE_NAME_LINK = "descendant::a[@class='gc-under gc-message-name-link']";
+//		public static final String MESSAGE_NAME_LINK = "descendant::a[@class='gc-under gc-message-name-link']";
+		public static final String MESSAGE_NAME_LINK = "descendant::a[contains(@class,'gc-under')]";
 		public static final String MESSAGE_TYPE = "descendant::span[@class='gc-message-type']";
 		public static final String MESSAGE_ID = "/*/*/div[@id]";
 		public static final String MESSAGE_PORTRAIT = "descendant::div[@class='gc-message-portrait']";
 		public static final String MESSAGE_IMG = "descendant::img";
+		public static final String MESSAGE_BOLD = "descendant::b";
+		public static final String MESSAGE_QUICKCALL = "descendant::form[@name='quickcall']";
 	}
 
 	/** Filter responses constants. */

@@ -24,12 +24,12 @@ public abstract class ParsingUtil {
 	 * <br/>
 	 * removeUninterestingParts("Hello Joseph, How are you today? Fine.", "How are", "?" , <b>false</b>)<br/>
 	 * Returns: " you today"
-	 * 
-	 * @param text
-	 * @param startBorder
-	 * @param endBorder
-	 * @param includeBorders
-	 * @return
+	 *
+	 * @param text the text
+	 * @param startBorder the start border
+	 * @param endBorder the end border
+	 * @param includeBorders the include borders
+	 * @return the string
 	 */
 	public static final String removeUninterestingParts(String text, String startBorder, String endBorder, boolean includeBorders) {
 		String ret="";
@@ -66,11 +66,13 @@ public abstract class ParsingUtil {
 		return ret;
 	}
 	
+	
+	//TODO use Apache commons StringEscapeUtils.unescapeHTML() ?
 	/**
-	 * Replaces some speciel htmlEntities with a corresponding String
-	 * //TODO use Apache commons StringEscapeUtils.unescapeHTML() ?
-	 * @param s
-	 * @return
+	 * Replaces some speciel htmlEntities with a corresponding String.
+	 *
+	 * @param s the HTML Entity in String format
+	 * @return the Decoded HTML in String format
 	 */
 	public static String htmlEntitiesDecode(String s) {
 		s=s.replaceAll("&#39;", "'"); 

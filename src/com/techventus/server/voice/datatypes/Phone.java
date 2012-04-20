@@ -56,10 +56,12 @@ public class Phone implements Comparable<Phone>{
    	}
    	
    	/**
-	 * 
-	 * @param phonesJSON
-	 * @param saveMode - check if each key exists before trying to parse it
-	 */
+	    * Instantiates a new Phone Object.
+	    *
+	    * @param phonesJSON the JSON representation of the Phone object
+	    * @param pSaveMode the Save Mode boolean
+	    * @throws JSONException the JSONException
+	    */
    	public Phone(JSONObject phonesJSON, boolean pSaveMode) throws JSONException {
 		if(!saveMode || (saveMode && phonesJSON.has("id")) ) id = phonesJSON.getInt("id");
 		if(!saveMode || (saveMode && phonesJSON.has("name")) ) name = phonesJSON.getString("name");
@@ -169,7 +171,7 @@ public class Phone implements Comparable<Phone>{
 
 	/**
 	 * @param phones
-	 * @return
+	 * @return Json Object
 	 * @throws JSONException 
 	 */
 	public static Object phonesArrayToJsonObject(Phone[] phones) throws JSONException {

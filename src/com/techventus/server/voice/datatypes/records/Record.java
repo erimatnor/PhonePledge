@@ -44,10 +44,21 @@ public abstract class Record {
 	}
 
 	/**
+	 * Sets the id.
+	 *
 	 * @param id the id to set
 	 */
 	public void setId(String id) {
 		this.id = id;
+	}
+	
+	/**
+	 * Gets a boolean for whether or not the conversation has been read.
+	 *
+	 * @return the read
+	 */
+	public boolean getRead(){
+		return read;
 	}
 
 	/**

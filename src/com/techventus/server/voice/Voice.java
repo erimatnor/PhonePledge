@@ -3,7 +3,7 @@
  *
  * Created: Sat Mar  13 14:41:11 2010
  *
- * Copyright (C) 2010 Techventus, LLC
+ * Copyright (C) 2010-2012 Techventus, LLC
  * 
  * Techventus, LLC is not responsible for any use or misuse of this product.
  * In using this software you agree to hold harmless Techventus, LLC and any other
@@ -61,15 +61,23 @@ import com.techventus.server.voice.util.SMSParser;
 @SuppressWarnings("deprecation")
 public class Voice {
 
+	/** The PRINT to Console FLAG setting. */
 	public boolean PRINT_TO_CONSOLE;
-	/** 
-	 * keeps the list of phones - lazy
-	*/
+	
+	/** keeps the list of phones - lazy. */
 
 	private AllSettings settings;
+	
+	/** The general. */
 	String general = null;
+	
+	/** The phones info. */
 	String phonesInfo = null;
+	
+	/** The rnr see. */
 	String rnrSEE = null;
+	
+	/** The error. */
 	private ERROR_CODE error;
 
 	/**
@@ -103,19 +111,32 @@ public class Voice {
 	 * CAPTCHA image URL in a login failed response with the error code "CaptchaRequired".
 	 */
 	private String captchaToken = null;
-	/**
-	 * Url of the image with the captcha - only filled after a captacha response to a login try
-	 */
+	
+	/** Url of the image with the captcha - only filled after a captacha response to a login try. */
 	private String captchaUrl = null;
+	
+	/** The captcha url2. */
 	private String captchaUrl2 = null;
-	/** Counts the amount of redirects we are doing in the get(String url) method to avoid infinite loop */
+	
+	/** Counts the amount of redirects we are doing in the get(String url) method to avoid infinite loop. */
 	private int redirectCounter = 0;
-	/** Maximum amount of redirects before we throw an exception */
+	
+	/** Maximum amount of redirects before we throw an exception. */
 	private static int MAX_REDIRECTS = 5;
+	
+	/** The Constant enc. */
 	final static String enc = "UTF-8";
+	
+	/** The Constant USER_AGENT. */
 	final static String USER_AGENT = "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/525.13 (KHTML, like Gecko) Chrome/0.A.B.C Safari/525.13";
+	
+	/** The Constant GOOGLE. */
 	public final static String GOOGLE = "GOOGLE";
+	
+	/** The Constant HOSTED. */
 	public final static String HOSTED = "HOSTED";
+	
+	/** The Constant HOSTED_OR_GOOGLE. */
 	public final static String HOSTED_OR_GOOGLE = "HOSTED_OR_GOOGLE";
 	/**
 	 * Type of account to request authorization for. Possible values are: <br/><br/>
@@ -135,26 +156,94 @@ public class Voice {
 	 * names, refer to the service documentation.
 	 */
 	final static String SERVICE = "grandcentral";
-	final static String generalURLString = "https://www.google.com/voice/";
+	
+	/** The Constant generalURLString. */
+	final static String generalURLString = "https://www.google.com/voice/b/0";
+	
+	/** The Constant loginURLString. */
 	final static String loginURLString = "https://www.google.com/accounts/ClientLogin";
-	final static String inboxURLString = "https://www.google.com/voice/inbox/recent/inbox/";
-	final static String starredURLString = "https://www.google.com/voice/inbox/recent/starred/";
-	final static String recentAllURLString = "https://www.google.com/voice/inbox/recent/all/";
-	final static String spamURLString = "https://www.google.com/voice/inbox/recent/spam/";
-	final static String trashURLString = "https://www.google.com/voice/inbox/recent/spam/";
-	final static String voicemailURLString = "https://www.google.com/voice/inbox/recent/voicemail/";
-	final static String smsURLString = "https://www.google.com/voice/inbox/recent/sms/";
-	final static String recordedURLString = "https://www.google.com/voice/inbox/recent/recorded/";
-	final static String placedURLString = "https://www.google.com/voice/inbox/recent/placed/";
-	final static String receivedURLString = "https://www.google.com/voice/inbox/recent/received/";
-	final static String missedURLString = "https://www.google.com/voice/inbox/recent/missed/";
-	final static String phoneEnableURLString = "https://www.google.com/voice/settings/editDefaultForwarding/";
-	final static String generalSettingsURLString = "https://www.google.com/voice/settings/editGeneralSettings/";
-	final static String phonesInfoURLString = "https://www.google.com/voice/settings/tab/phones";
-	final static String groupsInfoURLString = "https://www.google.com/voice/settings/tab/groups";
-	final static String voicemailInfoURLString = "https://www.google.com/voice/settings/tab/voicemailsettings";
-	final static String groupsSettingsURLString = "https://www.google.com/voice/settings/editGroup/";
-  final static String voicemailDownloadURLString = "https://www.google.com/voice/media/send_voicemail/";
+	
+	/** The Constant inboxURLString. */
+	final static String inboxURLString = "https://www.google.com/voice/b/0/inbox/recent/inbox/";
+	
+	/** The Constant starredURLString. */
+	final static String starredURLString = "https://www.google.com/voice/b/0/inbox/recent/starred/";
+	
+	/** The Constant recentAllURLString. */
+	final static String recentAllURLString = "https://www.google.com/voice/b/0/inbox/recent/all/";
+	
+	/** The Constant spamURLString. */
+	final static String spamURLString = "https://www.google.com/voice/b/0/inbox/recent/spam/";
+	
+	/** The Constant trashURLString. */
+	final static String trashURLString = "https://www.google.com/voice/b/0/inbox/recent/spam/";
+	
+	/** The Constant voicemailURLString. */
+	final static String voicemailURLString = "https://www.google.com/voice/b/0/inbox/recent/voicemail/";
+	
+	/** The Constant smsURLString. */
+	final static String smsURLString = "https://www.google.com/voice/b/0/inbox/recent/sms/";
+	
+	/** The Constant recordedURLString. */
+	final static String recordedURLString = "https://www.google.com/voice/b/0/inbox/recent/recorded/";
+	
+	/** The Constant placedURLString. */
+	final static String placedURLString = "https://www.google.com/voice/b/0/inbox/recent/placed/";
+	
+	/** The Constant receivedURLString. */
+	final static String receivedURLString = "https://www.google.com/voice/b/0/inbox/recent/received/";
+	
+	/** The Constant missedURLString. */
+	final static String missedURLString = "https://www.google.com/voice/b/0/inbox/recent/missed/";
+	
+	/** The Constant phoneEnableURLString. */
+	final static String phoneEnableURLString = "https://www.google.com/voice/b/0/settings/editDefaultForwarding/";
+	
+	/** The Constant generalSettingsURLString. */
+	final static String generalSettingsURLString = "https://www.google.com/voice/b/0/settings/editGeneralSettings/";
+	
+	/** The Constant phonesInfoURLString. */
+	final static String phonesInfoURLString = "https://www.google.com/voice/b/0/settings/tab/phones";
+	
+	/** The Constant groupsInfoURLString. */
+	final static String groupsInfoURLString = "https://www.google.com/voice/b/0/settings/tab/groups";
+	
+	/** The Constant voicemailInfoURLString. */
+	final static String voicemailInfoURLString = "https://www.google.com/voice/b/0/settings/tab/voicemailsettings";
+	
+	/** The Constant groupsSettingsURLString. */
+	final static String groupsSettingsURLString = "https://www.google.com/voice/b/0/settings/editGroup/";
+	
+	/** The Constant voicemailDownloadURLString. */
+	final static String voicemailDownloadURLString = "https://www.google.com/voice/media/send_voicemail/";
+	
+	/** The Constant markAsReadString. */
+	final static String markAsReadString = "https://www.google.com/voice/b/0/inbox/mark/";
+	
+	/** The Constant unreadSMSString. */
+	final static String unreadSMSString = "https://www.google.com/voice/b/0/inbox/recent/sms/unread/";
+  
+	//Experimental  keyFlag is just there to overload method
+	public Voice(String authToken ) throws IOException{
+		this.authToken = authToken;
+		this.pass = "UNKNOWN";
+		this.user = "UNKNOWN";
+		
+		this.source = "GoogleVoiceJava";
+		
+	
+		this.general = 	getGeneral();
+		this.setRNRSEE();
+			
+		String response = this.getRawPhonesInfo();
+		int phoneIndex = response.indexOf("gc-user-number-value\">");
+		this.phoneNumber = response.substring(phoneIndex + 22, phoneIndex + 36);
+		this.phoneNumber = this.phoneNumber.replaceAll("[^a-zA-Z0-9]", "");
+		if (this.phoneNumber.indexOf("+") == -1) {
+			this.phoneNumber = "+1" + this.phoneNumber;
+		}
+
+	}
 
 	/**
 	 * Instantiates a new voice. This constructor is deprecated. Try
@@ -297,29 +386,20 @@ public class Voice {
 
 	/**
 	 * Internal function used by all constructors to fully initiate the Voice
-	 * Object without chaptcha Response
-	 * 
-	 * @param user
-	 *            the username in the format of user@gmail.com or user@googlemail.com
-	 * @param pass
-	 *            the password for the google account
-	 * @param source
-	 *            the source
-	 * @param printDebugIntoToSystemOut
-	 *            the print debug into to system out
-	 * @param accountType
-	 * 			  Type of account to request authorization for. Possible values are:
-	 *			Voice.GOOGLE (get authorization for a Google account only) 
-	 *			Voice.HOSTED (get authorization for a hosted account only) 
-	 *			Voice.HOSTED_OR_GOOGLE (get authorization first for a hosted account; if attempt fails, get authorization for a Google account)
-	 *			Use Voice.HOSTED_OR_GOOGLE if you're not sure which type of account you want authorization for. If the user information matches both a hosted and a Google account, only the hosted account is authorized.
-	 * @param captchaResponse
-	 * 				response to a captcha challenge, set to null if normal login
-	 * @param captchaToken
-	 * 				token which matches the response/url from the captcha challenge
+	 * Object without chaptcha Response.
 	 *
-	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
+	 * @param user the username in the format of user@gmail.com or user@googlemail.com
+	 * @param pass the password for the google account
+	 * @param source the source
+	 * @param printDebugIntoToSystemOut the print debug into to system out
+	 * @param accountType Type of account to request authorization for. Possible values are:
+	 * Voice.GOOGLE (get authorization for a Google account only)
+	 * Voice.HOSTED (get authorization for a hosted account only)
+	 * Voice.HOSTED_OR_GOOGLE (get authorization first for a hosted account; if attempt fails, get authorization for a Google account)
+	 * Use Voice.HOSTED_OR_GOOGLE if you're not sure which type of account you want authorization for. If the user information matches both a hosted and a Google account, only the hosted account is authorized.
+	 * @param captchaResponse response to a captcha challenge, set to null if normal login
+	 * @param captchaToken token which matches the response/url from the captcha challenge
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	private void init(String user, String pass, String source,
 			boolean printDebugIntoToSystemOut, String accountType, String captchaResponse, String captchaToken) throws IOException {
@@ -344,9 +424,9 @@ public class Voice {
 	}
 	
         /**
-	 * Returns the username
-	 * @return username for gvoice account
-	 */
+         * Returns the username
+         * @return username for gvoice account
+         */
         public String getUsername()
         {
             return this.user;
@@ -354,10 +434,10 @@ public class Voice {
 	
 	/**
 	 * Returns the Greeting list - Lazy
-	 * @param refresh - set to true to force a List update from the server
+	 * @param forceUpdate set to true to force a List update from the server
 	 * @return List of Greeting objects
-	 * @throws IOException
-	 * @throws JSONException 
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws JSONException the jSON exception
 	 */
 	public List<Greeting> getVoicemailList(boolean forceUpdate) throws IOException, JSONException {
 		List<Greeting> lGList = new ArrayList<Greeting>();
@@ -369,10 +449,11 @@ public class Voice {
 	}
 	
 	/**
-	 * Returns the Group list - Lazy
-	 * @param refresh - set to true to force a List update from the server
+	 * Returns the Group list - Lazy.  Not yet Implemented
+	 *
+	 * @param forceUpdate the force update
 	 * @return List of Greeting objects
-	 * @throws IOException
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public List<String> getGroupSettingsList(boolean forceUpdate) throws IOException {
 //		return getSettings(forceUpdate).getGroupSettingsList();
@@ -387,11 +468,12 @@ public class Voice {
 	}
 	
 	/**
-	 * returns all users settings - lazy
-	 * @param forceUpdate
-	 * @return
-	 * @throws IOException 
-	 * @throws JSONException 
+	 * returns all users settings - lazy.
+	 *
+	 * @param forceUpdate the force update
+	 * @return the settings
+	 * @throws JSONException the jSON exception
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public AllSettings getSettings(boolean forceUpdate) throws JSONException, IOException {
 		if(settings==null || forceUpdate) {
@@ -431,6 +513,13 @@ public class Voice {
 		return get(inboxURLString);
 	}
 	
+	/**
+	 * Gets the inbox page.
+	 *
+	 * @param page the page
+	 * @return the inbox page
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	public String getInboxPage(int page) throws IOException {
 		return get(inboxURLString,page);
 	}
@@ -471,9 +560,17 @@ public class Voice {
 		return get(starredURLString);
 	}
 	
+	/**
+	 * Gets the starred page.
+	 *
+	 * @param page the page
+	 * @return the starred page
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	public String getStarredPage(int page) throws IOException {
 		return get(starredURLString,page);
 	}
+
 
 	/**
 	 * Gets the raw page source code for the recent items.
@@ -486,6 +583,13 @@ public class Voice {
 		return get(recentAllURLString);
 	}
 	
+	/**
+	 * Gets the recent page.
+	 *
+	 * @param page the page
+	 * @return the recent page
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	public String getRecentPage(int page) throws IOException {
 		return get(recentAllURLString,page);
 	}
@@ -501,6 +605,13 @@ public class Voice {
 		return get(spamURLString);
 	}
 	
+	/**
+	 * Gets the spam page.
+	 *
+	 * @param page the page
+	 * @return the spam page
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	public String getSpamPage(int page) throws IOException {
 		return get(spamURLString,page);
 	}
@@ -516,6 +627,13 @@ public class Voice {
 		return get(recordedURLString);
 	}
 	
+	/**
+	 * Gets the recorded page.
+	 *
+	 * @param page the page
+	 * @return the recorded page
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	public String getRecordedPage(int page) throws IOException {
 		return get(recordedURLString,page);
 	}
@@ -531,6 +649,13 @@ public class Voice {
 		return get(placedURLString);
 	}
 	
+	/**
+	 * Gets the placed page.
+	 *
+	 * @param page the page
+	 * @return the placed page
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	public String getPlacedPage(int page) throws IOException {
 		return get(placedURLString,page);
 	}
@@ -546,6 +671,13 @@ public class Voice {
 		return get(receivedURLString);
 	}
 	
+	/**
+	 * Gets the received page.
+	 *
+	 * @param page the page
+	 * @return the received page
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	public String getReceivedPage(int page) throws IOException {
 		return get(receivedURLString,page);
 	}
@@ -561,10 +693,46 @@ public class Voice {
 		return get(missedURLString);
 	}
 	
+	/**
+	 * Gets the missed page.
+	 *
+	 * @param page the page
+	 * @return the missed page
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	public String getMissedPage(int page) throws IOException {
 		return get(missedURLString,page);
 	}
 
+	
+	/**
+	 * Gets the unread sms.
+	 *
+	 * @return the unread sms
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
+	public String getUnreadSMS() throws IOException{
+		return get(unreadSMSString);
+	}
+	
+	/**
+	 * Gets the unread sms page.
+	 *
+	 * @param page the page
+	 * @return the unread sms page
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
+	public String getUnreadSMSPage(int page) throws IOException{
+		return get(unreadSMSString,page);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
   /**
 	 * Gets the Voicemail page raw source code.
 	 *
@@ -576,18 +744,24 @@ public class Voice {
 		return get(voicemailURLString);
 	}
 
+	/**
+	 * Gets the voicemail page.
+	 *
+	 * @param page the page
+	 * @return the voicemail page
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	public String getVoicemailPage(int page) throws IOException {
 		return get(voicemailURLString,page);
 	}
 
   /**
-	 * Downloads a voicemail
-	 *
-   * @param id of the voicemail to download
-	 * @return byte output stream
-	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
-	 */
+   * Downloads a voicemail.
+   *
+   * @param msgID the msg id
+   * @return byte output stream
+   * @throws IOException Signals that an I/O exception has occurred.
+   */
   public ByteArrayOutputStream downloadVoicemail(String msgID) throws IOException
   {
     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -640,29 +814,62 @@ public class Voice {
 	public String getSMS() throws IOException {
 		return get(smsURLString);
 	}
+
+	
+	
+	/**
+	 * Gets the SMS page.
+	 *
+	 * @param page the page
+	 * @return the sMS page
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
+	public String getSMSPage(int page) throws IOException {
+		return get(smsURLString,page);
+	}
+	
+	
 	
 	/**
 	 * Gets a collection of SMS threads. Each SMS thread has a collection of SMS
 	 * objects which contains contact, text and timestamp information.
-	 * 
+	 *
 	 * @return a collection of SMS threads.
-	 * @throws IOException
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public Collection<SMSThread> getSMSThreads() throws IOException {
 		SMSParser parser = new SMSParser(get(smsURLString), phoneNumber);
-		
 		return parser.getSMSThreads();
 	}
 	
-	public String getSMSPage(int page) throws IOException {
-		return get(smsURLString,page);
+	
+	/**
+	 * Gets the SMS threads from a given Response Page.
+	 *
+	 * @param response the response
+	 * @return the SMS threads
+	 */
+	public Collection<SMSThread> getSMSThreads(String response){
+		SMSParser parser= new SMSParser(response, phoneNumber);
+		return parser.getSMSThreads();
 	}
-
+	
+	
+	/**
+	 * Gets the rNRSEE.
+	 *
+	 * @return the rNRSEE
+	 */
+	public String getRNRSEE(){
+		return rnrSEE;
+	}
+	
 	/**
 	 * Internal method which parses the Homepage source code to determine the
 	 * rnrsee variable, this variable is passed into most fuctions for placing
 	 * calls and sms.
-	 * @throws IOException 
+	 *
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	private void setRNRSEE() throws IOException {
 		if (general != null) {
@@ -686,12 +893,23 @@ public class Voice {
 		}
 	}
 
+  /**
+   * Gets the phone number.
+   *
+   * @return the phone number
+   */
   public String getPhoneNumber()
   {
     return this.phoneNumber;
   }
 
 	//TODO Combine with or replace setPhoneInfo
+	/**
+	 * Gets the raw phones info.
+	 *
+	 * @return the raw phones info
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	public String getRawPhonesInfo() throws IOException{
 		return get(phonesInfoURLString);
 	}
@@ -735,7 +953,7 @@ public class Voice {
 		calldata.append(URLEncoder.encode(rnrSEE, enc));
 		
 		
-		URL callURL = new URL("https://www.google.com/voice/call/connect/");
+		URL callURL = new URL("https://www.google.com/voice/b/0/call/connect/");
 
 		URLConnection callconn = callURL.openConnection();
 		callconn.setRequestProperty("Authorization","GoogleLogin auth="+authToken);
@@ -798,7 +1016,7 @@ public class Voice {
 		// call]&forwardingNumber=[forwarding
 		// number]&subscriberNumber=undefined&remember=0&_rnr_se=[pull from
 		// page]
-		URL callURL = new URL("https://www.google.com/voice/call/cancel/");
+		URL callURL = new URL("https://www.google.com/voice/b/0/call/cancel/");
 
 		URLConnection callconn = callURL.openConnection();
 		callconn.setRequestProperty( "Authorization",
@@ -834,25 +1052,32 @@ public class Voice {
 
 	}
 	
-	public String deleteMessage(String msgID) throws IOException
+	/**
+	 * Mark a Conversation with a known Message ID as read.
+	 *
+	 * @param msgID the msg id
+	 * @return the string
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
+	public String markAsRead(String msgID) throws IOException
   {
     String out = "";
 		StringBuffer calldata = new StringBuffer();
 
-
-		// POST /voice/inbox/deleteMessages/
-		// messages=[messageID]
-		// &trash=1
-		// &_rnr_se=[pull from page]
-
+		
+        // POST /voice/inbox/mark/ 
+        // messages=[messageID]
+        // &read=1
+        // &_rnr_se=[pull from page]
+		
 		calldata.append("messages=");
 		calldata.append(URLEncoder.encode(msgID, enc));
-		calldata.append("&trash=1");
+		calldata.append("&read=1");
 		calldata.append("&_rnr_se=");
 		calldata.append(URLEncoder.encode(rnrSEE, enc));
 
 
-		URL callURL = new URL("https://www.google.com/voice/inbox/deleteMessages/");
+		URL callURL = new URL(markAsReadString);
 
 		URLConnection callconn = callURL.openConnection();
 		callconn.setRequestProperty("Authorization","GoogleLogin auth="+authToken);
@@ -884,15 +1109,128 @@ public class Voice {
 		return out;
   }
 	
-	/** 
-	 * Enables multiple phones in one post 
-	 *  
-	 * TODO Test this with multiple phones in an account
-	 * 		Best would be to be able to construct a url which can switch multiple phones at a time
+	/**
+	 * Mark a Conversation with a known Message ID as unread.
+	 *
+	 * @param msgID the msg id
+	 * @return the string
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
+	public String markUnRead(String msgID) throws IOException
+	{
+	    String out = "";
+	        StringBuffer calldata = new StringBuffer();
+	
+	
+	        // POST /voice/inbox/mark/ 
+	        // messages=[messageID]
+	        // &read=0
+	        // &_rnr_se=[pull from page]
+	
+	        calldata.append("messages=");
+	        calldata.append(URLEncoder.encode(msgID, enc));
+	        calldata.append("&read=0");
+	        calldata.append("&_rnr_se=");
+	        calldata.append(URLEncoder.encode(rnrSEE, enc));
+	
+	
+	        URL callURL = new URL("https://www.google.com/voice/b/0/inbox/mark");
+	
+	        URLConnection callconn = callURL.openConnection();
+	        callconn.setRequestProperty("Authorization","GoogleLogin auth="+authToken);
+	        callconn.setRequestProperty("User-agent",USER_AGENT);
+	
+	        callconn.setDoOutput(true);
+	        OutputStreamWriter callwr = new OutputStreamWriter(callconn
+	                .getOutputStream());
+	
+	        callwr.write(calldata.toString());
+	        callwr.flush();
+	
+	        BufferedReader callrd = new BufferedReader(new InputStreamReader(
+	                callconn.getInputStream()));
+	
+	        String line;
+	        while ((line = callrd.readLine()) != null) {
+	            out += line + "\n\r";
+	
+	        }
+	
+	        callwr.close();
+	        callrd.close();
+	
+	        if (out.equals("")) {
+	            throw new IOException("No Response Data Received.");
+	        }
+	
+	        return out;
+	}
+
+	/**
+	 * Delete message.
+	 *
+	 * @param msgID the msg id
+	 * @return the string
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
+	public String deleteMessage(String msgID) throws IOException
+  {
+    String out = "";
+		StringBuffer calldata = new StringBuffer();
+
+
+		// POST /voice/inbox/deleteMessages/
+		// messages=[messageID]
+		// &trash=1
+		// &_rnr_se=[pull from page]
+
+		calldata.append("messages=");
+		calldata.append(URLEncoder.encode(msgID, enc));
+		calldata.append("&trash=1");
+		calldata.append("&_rnr_se=");
+		calldata.append(URLEncoder.encode(rnrSEE, enc));
+
+
+		URL callURL = new URL("https://www.google.com/voice/b/0/inbox/deleteMessages/");
+
+		URLConnection callconn = callURL.openConnection();
+		callconn.setRequestProperty("Authorization","GoogleLogin auth="+authToken);
+		callconn.setRequestProperty("User-agent",USER_AGENT);
+
+		callconn.setDoOutput(true);
+		OutputStreamWriter callwr = new OutputStreamWriter(callconn
+				.getOutputStream());
+
+		callwr.write(calldata.toString());
+		callwr.flush();
+
+		BufferedReader callrd = new BufferedReader(new InputStreamReader(
+				callconn.getInputStream()));
+
+		String line;
+		while ((line = callrd.readLine()) != null) {
+			out += line + "\n\r";
+
+		}
+
+		callwr.close();
+		callrd.close();
+
+		if (out.equals("")) {
+			throw new IOException("No Response Data Received.");
+		}
+
+		return out;
+  }
+	
+	/**
+	 * Enables multiple phones in one post
 	 * 
+	 * TODO Test this with multiple phones in an account
+	 * Best would be to be able to construct a url which can switch multiple phones at a time.
+	 *
 	 * @param IDs Array of Phones to enable
-	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public void phonesEnable(int[] IDs) throws IOException {
 
@@ -939,17 +1277,16 @@ public class Voice {
 		return phonesEnableDisableApply(paraString);
 	}
 	
-	/** 
+	/**
 	 * Disables multiple phones in one post
 	 * 
 	 * TODO Test this with multiple phones in an account
-	 * 		Make faster - spawn threads
-	 *      Best would be to be able to construct a url which can switch multiple phones at a time
-	 * 
+	 * Make faster - spawn threads
+	 * Best would be to be able to construct a url which can switch multiple phones at a time.
+	 *
 	 * @param IDs Array of Phones to disable
 	 * @return the raw response of the disable action.
-	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public void phonesDisable(int[] IDs) throws IOException {
 		
@@ -997,13 +1334,11 @@ public class Voice {
 	}
 
 	/**
-	 * Executes the enable/disable action with the provided url params
-	 * 
-	 * @param paraString
-	 *            the URL Parameters (encoded), ie ?auth=3248sdf7234&enable=0&phoneId=1&enable=1&phoneId=2&_rnr_se=734682ghdsf
+	 * Executes the enable/disable action with the provided url params.
+	 *
+	 * @param paraString the URL Parameters (encoded), ie ?auth=3248sdf7234&enable=0&phoneId=1&enable=1&phoneId=2&_rnr_se=734682ghdsf
 	 * @return the raw response of the disable action.
-	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	private String phonesEnableDisableApply(String paraString) throws IOException {
 		String out = "";
@@ -1054,14 +1389,13 @@ public class Voice {
 	}
 	
 	/**
-	 * Enables/disables the call Announcement setting (general for all phones)
-	 * 
+	 * Enables/disables the call Announcement setting (general for all phones).
+	 *
 	 * @param announceCaller <br/>
-	 *            true Announces caller's name and gives answering options <br/>
-	 *            false Directly connects calls when phones are answered
+	 * true Announces caller's name and gives answering options <br/>
+	 * false Directly connects calls when phones are answered
 	 * @return the raw response of the disable action.
-	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public String setCallPresentation(boolean announceCaller) throws IOException {
 		String out = "";
@@ -1117,13 +1451,12 @@ public class Voice {
 	}
 	
 	/**
-	 * This is the general voicemail greeting callers hear
-	 * 
+	 * This is the general voicemail greeting callers hear.
+	 *
 	 * @param greetingToSet <br/>
-	 *            number of the greeting to choose
+	 * number of the greeting to choose
 	 * @return the raw response of the disable action.
-	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public String setVoicemailGreetingId(String greetingToSet) throws IOException {
 
@@ -1145,9 +1478,10 @@ public class Voice {
 	/**
 	 * Activated or deactivated the Do Not disturb function.<br>
 	 * Enable this to send to voicemail all calls made to your Google number.
+	 *
 	 * @param dndEnabled true to enable dnd, false to disable it
-	 * @return
-	 * @throws IOException
+	 * @return the string
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public String setDoNotDisturb(boolean dndEnabled) throws IOException {
 
@@ -1175,10 +1509,11 @@ public class Voice {
 	}
 	
 	/**
-	 * Applies the settings for this group
-	 * @param group 
-	 * @return
-	 * @throws IOException
+	 * Applies the settings for this group.
+	 *
+	 * @param group the group
+	 * @return the string
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public String setNewGroupSettings(Group group) throws IOException {
 		URL requestURL = new URL(groupsSettingsURLString);
@@ -1234,12 +1569,12 @@ public class Voice {
 	}
 
 	/**
-	 * Posts a settings change
-	 * 
-	 * @param requestURL
-	 * @param paraString
-	 * @return
-	 * @throws IOException
+	 * Posts a settings change.
+	 *
+	 * @param requestURL the request url
+	 * @param paraString the para string
+	 * @return the string
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	private String postSettings(URL requestURL, String paraString)
 			throws IOException {
@@ -1289,29 +1624,33 @@ public class Voice {
 	}
 
 	/**
-	 * Send an SMS
-	 * 
-	 * @param destinationNumber
-	 *            the destination number
-	 * @param txt
-	 *            the Text of the message. Messages longer than the allowed
-	 *            character length will be split into multiple messages.
+	 * Send an SMS.
+	 *
+	 * @param destinationNumber the destination number
+	 * @param txt the Text of the message. Messages longer than the allowed
+	 * character length will be split into multiple messages.
+	 * @param id the Text of the message. Messages longer than the allowed
+	 * character length will be split into multiple messages.
 	 * @return the string
-	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public String sendSMS(String destinationNumber, String txt)
+	public String sendSMS(String destinationNumber, String txt, String id)
 			throws IOException {
 		String out = "";
 		String smsdata = "";
-
-		smsdata += URLEncoder.encode("phoneNumber", enc) + "="
+		smsdata += URLEncoder.encode("id", enc) + "="
+				+ URLEncoder.encode(id, enc);
+		smsdata += "&" +URLEncoder.encode("phoneNumber", enc) + "="
 				+ URLEncoder.encode(destinationNumber, enc);
+		smsdata += "&" +URLEncoder.encode("conversationId", enc) + "="
+				+ URLEncoder.encode(id, enc);
 		smsdata += "&" + URLEncoder.encode("text", enc) + "="
 				+ URLEncoder.encode(txt, enc);
 		smsdata += "&" + URLEncoder.encode("_rnr_se", enc) + "="
 				+ URLEncoder.encode(rnrSEE, enc);
-		URL smsurl = new URL("https://www.google.com/voice/sms/send/");
+		System.out.println("smsdata: "+smsdata);
+		
+		URL smsurl = new URL("https://www.google.com/voice/b/0/sms/send/");
 
 		URLConnection smsconn = smsurl.openConnection();
 		smsconn.setRequestProperty( "Authorization",
@@ -1345,12 +1684,79 @@ public class Voice {
 		return out;
 	}
 	
-	/*
-	 * TODO: REMOVE before release
+	
+	/**
+	 * Send an SMS.
+	 *
+	 * @param destinationNumber the destination number
+	 * @param txt the Text of the message. Messages longer than the allowed
+	 * character length will be split into multiple messages.
+	 * @return the string
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public String getONLYFORTEST(String urlString) throws IOException {
-		return get(urlString);
+	public String sendSMS(String destinationNumber, String txt, SMSThread thread)
+			throws IOException {
+		
+		String id = thread.getId();
+		return sendSMS(destinationNumber,txt,id);
 	}
+	
+	
+	
+	/**
+	 * Send an SMS.
+	 *
+	 * @param destinationNumber the destination number
+	 * @param txt the Text of the message. Messages longer than the allowed
+	 * character length will be split into multiple messages.
+	 * @return the string
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
+	public String sendSMS(String destinationNumber, String txt)
+			throws IOException {
+		String out = "";
+		String smsdata = "";
+
+		smsdata += URLEncoder.encode("phoneNumber", enc) + "="
+				+ URLEncoder.encode(destinationNumber, enc);
+		smsdata += "&" + URLEncoder.encode("text", enc) + "="
+				+ URLEncoder.encode(txt, enc);
+		smsdata += "&" + URLEncoder.encode("_rnr_se", enc) + "="
+				+ URLEncoder.encode(rnrSEE, enc);
+		URL smsurl = new URL("https://www.google.com/voice/b/0/sms/send/");
+
+		URLConnection smsconn = smsurl.openConnection();
+		smsconn.setRequestProperty( "Authorization",
+                "GoogleLogin auth="+authToken );
+		smsconn
+				.setRequestProperty(
+						"User-agent",
+						USER_AGENT);
+
+		smsconn.setDoOutput(true);
+		OutputStreamWriter callwr = new OutputStreamWriter(smsconn.getOutputStream());
+		callwr.write(smsdata);
+		callwr.flush();
+
+		BufferedReader callrd = new BufferedReader(new InputStreamReader(
+				smsconn.getInputStream()));
+
+		String line;
+		while ((line = callrd.readLine()) != null) {
+			out += line + "\n\r";
+
+		}
+
+		callwr.close();
+		callrd.close();
+
+		if (out.equals("")) {
+			throw new IOException("No Response Data Received.");
+		}
+
+		return out;
+	}
+	
 
 	/**
 	 * HTTP GET request for a given URL String.
@@ -1423,9 +1829,8 @@ public class Voice {
 	
 	
 	/**
-	 * HTTP GET request for a given URL String and a given page number
-	 * 
-	 * 
+	 * HTTP GET request for a given URL String and a given page number.
+	 *
 	 * @param urlString the url string
 	 * @param page number must be a natural number
 	 * @return the string
@@ -1466,13 +1871,13 @@ public class Voice {
 		login(null,null);
 	}
 	
+	
+	
 	/**
 	 * Use this login method to login - use captchaAnswer to answer a captcha challenge
-	 * @param captchaAnswer
-	 * 				(optional) String entered by the user as an answer to a CAPTCHA challenge. - null to make a normal login attempt
-	 * @param captchaToken
-	 * 				(optional) token which matches the response/url from the captcha challenge
-	 * @throws IOException
+	 * @param pCaptchaAnswer (optional) String entered by the user as an answer to a CAPTCHA challenge. - null to make a normal login attempt
+	 * @param pCaptchaToken (optional) token which matches the response/url from the captcha challenge
+	 * @throws IOException if login encounters a connection error
 	 */
 	public void login(String pCaptchaAnswer, String pCaptchaToken) throws IOException {
 
@@ -1582,7 +1987,10 @@ public class Voice {
 	}
 
 	/**
-	 * @return
+	 * Gets the error enum by code.
+	 *
+	 * @param pErrorCodeString the error code string
+	 * @return the error enum by code
 	 */
 	@Deprecated
 	private ERROR_CODE getErrorEnumByCode(String pErrorCodeString) {
@@ -1605,15 +2013,30 @@ public class Voice {
 		}
 	}
 	
+	/**
+	 * Gets the error.
+	 *
+	 * @return the error
+	 */
 	@Deprecated
 	public ERROR_CODE getError() {
 		return error;
 	}
 	
+	/**
+	 * Gets the captcha url.
+	 *
+	 * @return the captcha url
+	 */
 	public String getCaptchaUrl() {
 		return captchaUrl;
 	}
 	
+	/**
+	 * Gets the captcha token.
+	 *
+	 * @return the captcha token
+	 */
 	public String getCaptchaToken() {
 		return captchaToken;
 	}
@@ -1624,7 +2047,9 @@ public class Voice {
 	 * otherwise if arbitrary text is contained for a logged in account, a true
 	 * is returned.
 	 * 
-	 *TODO Examine methodology.
+	 *TODO Examine methodology. Perhaps Could Establish greater persistence with 
+	 *an option to force an update.  Currently this is an expensive
+	 *and slow method.
 	 * 
 	 * @return true, if is logged in
 	 */
@@ -1647,7 +2072,5 @@ public class Voice {
 			}
 		}
 		return false;
-	}
-
-	
+	}	
 }

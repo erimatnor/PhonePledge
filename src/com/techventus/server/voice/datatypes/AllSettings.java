@@ -38,7 +38,7 @@ public class AllSettings{
    	 *
    	 * Query disabled status - if id not found, then it returned false, which normally means enabled.
    	 * @param phoneId
-   	 * @return
+   	 * @return true if the Phone is Disabled. Otherwise it return false.
    	 */
    	public boolean isPhoneDisabled(int phoneId) {
    		boolean ret = false;

@@ -69,9 +69,10 @@ same directory as the phonepledge.jar file. The configuration file
 format is based on key-value pairs in the form "key=value" (one per
 line).
 
-The 'display.properties' configuration file supports the following
+The ```display.properties``` configuration file supports the following
 key-value pairs:
 
+```
 NextSlideTimeout=NUMBER
 	Number of seconds between each slide
 
@@ -129,7 +130,7 @@ GoogleVoiceUser=TEXT
 
 GoogleVoicePassword=TEXT
 	The password for the Google Voice account
-
+```
 
 Changing the logos
 ------------------

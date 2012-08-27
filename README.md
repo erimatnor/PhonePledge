@@ -47,8 +47,8 @@ spam your donors with lots of duplicate thank you notes.
 Building from Source Code
 -------------------------
 
-Compile with "make" or Eclipse. Requires a Java JDK installed on the
-system.
+Compile with ```make``` or the Eclipse IDE. Requires a Java JDK
+installed on the system.
 
 To compile without Eclipse in a terminal window, type:
 
@@ -57,17 +57,18 @@ $ make
 To run:
 
 In most OSes it is sufficient to just double click the jar
-file. Otherwise, run 'java -jar phonepledge.jar' in a terminal window.
+file. Otherwise, run ```java -jar phonepledge.jar``` in a terminal
+window.
 
 Configuration
 -------------
 
 Settings related to the control window and display window are
 configured separately using two configuration files:
-control.properties and display.properties. These should be put in the
-same directory as the phonepledge.jar file. The configuration file
-format is based on key-value pairs in the form "key=value" (one per
-line).
+```control.properties``` and ```display.properties```. These should be
+put in the same directory as the phonepledge.jar file. The
+configuration file format is based on key-value pairs in the form
+```key=value``` (one per line).
 
 The ```display.properties``` configuration file supports the following
 key-value pairs:
@@ -132,7 +133,7 @@ GoogleVoicePassword=TEXT
 	The password for the Google Voice account
 ```
 
-Changing the logos
+Changing the Logos
 ------------------
 
 There are two logos displayed in the application. One large logo in
@@ -165,16 +166,14 @@ Keyboard Shortcuts
 
 Control window:
 
-a		- accept selected pledge
-
-r 		- reject selected pledge
-
-up/down arrow	- Move up/down in pledge list
+* a		- accept selected pledge
+* r 		- reject selected pledge
+* up/down arrow	- Move up/down in pledge list
 
 Display window:
 
-ctrl/cmd-f	- Toggle full-screen (software mode)
-ctrl/cmd-g	- Toggle full-screen (hardware mode)
+* ctrl/cmd-f	- Toggle full-screen (software mode)
+* ctrl/cmd-g	- Toggle full-screen (hardware mode)
 
 NOTE on full-screen modes:
 

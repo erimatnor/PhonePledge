@@ -1,3 +1,6 @@
+PhonePlede
+==========
+
 For Licensing and copying information, see the file COPYING.
 
 PhonePledge is an application for fundraising events. The application
@@ -13,7 +16,7 @@ unofficial Java API library found at:
 http://code.google.com/p/google-voice-java/
 
 Functional Overview
-===================
+-------------------
 
 The PhonePledge application consists of two windows: the 'control'
 window and the pledge 'display' window. The control window allows a
@@ -41,10 +44,10 @@ downloads the list of SMSes from the Google Voice account on
 startup. Use the reply functionality with caution---you do not want to
 spam your donors with lots of duplicate thank you notes.
 
-Building
-========
+Building from Source Code
+-------------------------
 
-Compile with "make" or Eclipse. Requires a Java SDK installed on the
+Compile with "make" or Eclipse. Requires a Java JDK installed on the
 system.
 
 To compile without Eclipse in a terminal window, type:
@@ -57,7 +60,7 @@ In most OSes it is sufficient to just double click the jar
 file. Otherwise, run 'java -jar phonepledge.jar' in a terminal window.
 
 Configuration
-=============
+-------------
 
 Settings related to the control window and display window are
 configured separately using two configuration files:
@@ -141,7 +144,7 @@ field (RGB values 0,0,80 by default). However, colors can be user
 defined as described above.
 
 Adding Slides
-=============
+-------------
 
 Slides that are to be displayed during times of low pledge activity
 should be put in a slides subdirectory of the directory containing
@@ -157,7 +160,7 @@ large. However, do not make them unnecessarily large, as PhonePledge
 loads them dynamically and may slow down in case they are really huge.
 
 Keyboard Shortcuts
-==================
+------------------
 
 Control window:
 

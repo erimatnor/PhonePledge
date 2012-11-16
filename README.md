@@ -80,11 +80,19 @@ NextSlideTimeout=NUMBER
 TelephoneNumberFont=TEXT
 	Font of telephone number shown (Name of some system font, e.g., Arial)
 
+BackgroundColor=NUMBER,NUMBER,NUMBER
+	The RGB color code to use for the background of the display
+	window
+
 PledgeFont=TEXT
 	Sets the font of the Pledges shown in the center of the screen
 
 PledgeFontSize=NUMBER
 	Sets the font size of the Pledges shown in the center of the screen
+
+PledgeFontColor=NUMBER,NUMBER,NUMBER 
+        The RGB color code to use for the pledges shown in the center of the
+	screen.
 
 TickerFont=TEXT
 	Sets the font of the pledges in the Ticker
@@ -92,8 +100,13 @@ TickerFont=TEXT
 TickerFontSize=NUMBER
 	Sets the font size of pledges in the Ticker
 
-NextPledgeTimeout=NUMBER
-	Timeout before showing next pledge (seconds)
+TickerColor=NUMBER,NUMBER,NUMBER
+	The RGB color code to use for the ticker background in the
+	display window
+
+TickerFontColor=NUMBER,NUMBER,NUMBER
+	The RGB color code to use for the ticker font in the
+	display window
 
 TickerHz=TEXT
 	How frequently the ticker should be updated (affects smoothness)
@@ -101,20 +114,16 @@ TickerHz=TEXT
 TicksPerSecond=NUMBER
 	How "far" the ticker should move each second
 
+NextPledgeTimeout=NUMBER
+	Timeout before showing next pledge (seconds)
+
 PledgeInstruction=TEXT
 	The instruction on how to send pledges (text above phone number)
 
 PhoneNumber=TEXT 
 	The phone number to send pledges to (this will probably 
 	be overridden once logged in to Google Voice)
-
-BackgroundColor=NUMBER,NUMBER,NUMBER
-	The RGB color code to use for the background of the display
-	window
 	
-TickerColor=NUMBER,NUMBER,NUMBER
-	The RGB color code to use for the ticker background in the
-	display window
 
 NOTE: most of these settings can also be changed from the control
 window.

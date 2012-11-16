@@ -16,7 +16,6 @@
  */
 package phonepledge.server.gui;
 
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;

@@ -35,9 +35,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.security.CodeSource;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -166,7 +164,16 @@ public class PledgeDisplayPanel extends JPanel
 		
 		if ((value = (String)props.getProperty("PledgeFont")) != null) {
 			pledgePane.setFont(value);
-		} 
+		}
+		
+		if ((value = (String)props.getProperty("PledgeFontColor")) != null) {
+			Color tmpColor = stringToColor(value);
+			
+			if (tmpColor != null) {
+				pledgePane.setFontColor(tmpColor);
+				System.out.println("PledgeFontColor=" + value);
+			}
+		}
 
 		if ((value = (String)props.getProperty("PledgeFontSize")) != null) {
 			try {
@@ -187,6 +194,14 @@ public class PledgeDisplayPanel extends JPanel
 				tickerLabel.setFontSize(val);
 			} catch (NumberFormatException e) {
 				System.err.println("Bad TickerFontSize value " + value);
+			}
+		}
+		
+		if ((value = (String)props.getProperty("TickerFontColor")) != null) {
+			Color tmpColor = stringToColor(value);
+			if (tmpColor != null) {
+				tickerLabel.setFontColor(tmpColor);
+				System.out.println("TickerFontColor=" + value);
 			}
 		}
 		
@@ -230,31 +245,35 @@ public class PledgeDisplayPanel extends JPanel
 		}
 
 		if ((value = (String)props.getProperty("TickerColor")) != null) {
-			String rgbstr[] = value.split(",", 0);
-			
-			if (rgbstr.length > 2) {
-				int rgb[] = new int[3];
-		
-				for (int i = 0; i < rgb.length; i++)
-					rgb[i] = Integer.parseInt(rgbstr[i]);
+			Color tmpColor = stringToColor(value);
 				
-				tickerColor = new Color(rgb[0], rgb[1], rgb[2]);
+			if (tmpColor != null) {
+				tickerColor = tmpColor;
 				System.out.println("TickerColor=" + value);
 			}
 		}
 		if ((value = (String)props.getProperty("BackgroundColor")) != null) {
-			String rgbstr[] = value.split(",", 0);
+			Color tmpColor = stringToColor(value);
 			
-			if (rgbstr.length > 2) {
-				int rgb[] = new int[3];
-		
-				for (int i = 0; i < rgb.length; i++)
-					rgb[i] = Integer.parseInt(rgbstr[i]);
-				
-				backgroundColor = new Color(rgb[0], rgb[1], rgb[2]);
+			if (tmpColor != null) {
+				backgroundColor = tmpColor;
 				System.out.println("BackgroundColor=" + value);
 			}
 		}
+	}
+	
+	private Color stringToColor(String value) {
+		String rgbstr[] = value.split(",", 0);
+		
+		if (rgbstr.length > 2) {
+			int rgb[] = new int[3];
+	
+			for (int i = 0; i < rgb.length; i++)
+				rgb[i] = Integer.parseInt(rgbstr[i]);
+			
+			return new Color(rgb[0], rgb[1], rgb[2]);
+		}
+		return null;
 	}
 	
 	class IdleTimeout implements ActionListener {

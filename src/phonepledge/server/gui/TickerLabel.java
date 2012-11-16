@@ -35,11 +35,13 @@ import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.text.SimpleAttributeSet;
 
 
 public class TickerLabel extends JComponent {
 	private static final long serialVersionUID = 1L;
 	private volatile int currOffset[] = { 0, 0 };
+	SimpleAttributeSet center;
 	int ticksPerSecond = 100;
 	BufferedImage tickerLogo = null;
 	Image tickerLogoScaled = null;
@@ -55,6 +57,7 @@ public class TickerLabel extends JComponent {
 	Font font = new Font(fontName, Font.PLAIN, fontSize);
 	private String[] text = null;
 	private String[] nextText = null;
+	private Color tickerFontColor = Color.white;
 	int textWidth;
 	int textHeight;
 	private int width = 0;
@@ -63,6 +66,7 @@ public class TickerLabel extends JComponent {
 	public TickerLabel(String[] newText) {
 		CodeSource codeSource = PledgeDisplayPanel.class.getProtectionDomain().getCodeSource();
 		File jarFile = null, logoFile = null;
+		center = new SimpleAttributeSet();
 		
 		try {
 			jarFile = new File(codeSource.getLocation().toURI().getPath());
@@ -111,6 +115,10 @@ public class TickerLabel extends JComponent {
 		setFont(font);
 	}
 	
+	public void setFontColor(Color c) {
+		tickerFontColor = c;
+	}
+	
 	public void setWidth(int width) {
 		if (this.width == width)
 			return;
@@ -154,7 +162,7 @@ public class TickerLabel extends JComponent {
 		this.removeAll();
 		p[pIndex] = new JPanel();
 		p[pIndex].setOpaque(false);
-		p[pIndex].setForeground(Color.white);
+		p[pIndex].setForeground(tickerFontColor);
 		p[pIndex].setLayout(new BoxLayout(p[pIndex], BoxLayout.LINE_AXIS));
 		int totHeight = icon.getIconHeight();
 		int totWidth = 0;
@@ -165,7 +173,7 @@ public class TickerLabel extends JComponent {
 			JLabel l = new JLabel(text[i]);
 			l.setIcon(icon);
 			l.setFont(font);
-			l.setForeground(Color.white);
+			l.setForeground(tickerFontColor);
 			l.setIconTextGap(5);
 			l.setOpaque(false);
 			int width = metrics.stringWidth(text[i]) + 

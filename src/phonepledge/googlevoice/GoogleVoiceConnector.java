@@ -87,7 +87,7 @@ public class GoogleVoiceConnector implements Runnable {
 			return false;
 		}
 		
-		if (smsThreads == null)
+		if (smsThreads == null || smsThreads.isEmpty())
 			return false;
 	
 		// Convert to array so we can access SMS in reverse, i.e., oldest first
@@ -147,7 +147,7 @@ public class GoogleVoiceConnector implements Runnable {
 		}
 		
 		while (!shouldExit) {
-			System.out.println("Refreshing sms");
+			//System.out.println("Refreshing sms");
 			
 			refreshSMS();
 			

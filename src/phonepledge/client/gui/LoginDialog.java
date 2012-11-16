@@ -41,6 +41,8 @@ public class LoginDialog extends JDialog implements ActionListener {
 		getContentPane().add(submit);
 		submit.addActionListener(this);
 		quit.addActionListener(this);
+		usernameField.addActionListener(this);
+		passwordField.addActionListener(this);
 		pack();
 	}
 	public static String[] showDialog(Component frameComp) {
@@ -57,13 +59,29 @@ public class LoginDialog extends JDialog implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
 		if (e.getSource().equals(submit)) {
 			credentials[0] = usernameField.getText();
 			credentials[1] = new String(passwordField.getPassword());
+			
+			if (credentials[0].length() == 0 || 
+					credentials[1].length() == 0)
+				return;
+			
 			setVisible(false);
 		} else if (e.getSource().equals(quit)) {
 			System.exit(0);
+		} else if (e.getSource().equals(usernameField)) {
+			if (usernameField.getText().length() > 0)
+				passwordField.requestFocus();
+		} else if (e.getSource().equals(passwordField)) {
+			credentials[0] = usernameField.getText();
+			credentials[1] = new String(passwordField.getPassword());
+			
+			if (credentials[0].length() == 0 || 
+					credentials[1].length() == 0)
+				return;
+			
+			setVisible(false);
 		}
 	}
 }

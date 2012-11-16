@@ -99,6 +99,9 @@ public class SMSParser {
 
 		Map<String, SMSThread> threadMap = buildSMSThreadMap(xmlResponse);
 
+		if (threadMap == null || threadMap.isEmpty())
+			return result;
+		
 		// Select the threads using XPath queries.
 		@SuppressWarnings("unchecked")
 		List<Element> elements = doc.selectNodes(XPathQuery.MESSAGE_ID);
@@ -237,6 +240,10 @@ public class SMSParser {
 			JSONObject json = new JSONObject(jsonResponse);
 			JSONObject messages = json.getJSONObject(JSONContants.MESSAGES);
 			JSONArray names = messages.names();
+			
+			if (names == null)
+					return result;
+			
 			for (int i = 0; i < names.length(); i++) {
 				JSONObject jsonSmsThread = messages.getJSONObject(names
 						.getString(i));

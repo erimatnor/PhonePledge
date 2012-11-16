@@ -18,6 +18,9 @@ package phonepledge.server.gui;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
@@ -45,6 +48,7 @@ public class PledgePane extends JTextPane {
 	SimpleAttributeSet center;
 	Timer textFadeInTimer;
 	Timer textShowTimer;
+	private int maxFontSize = 48;
 	// Queue of pledges that are removed when they have been showed
 	private ArrayList<String> textQueue = new ArrayList<String>();
 	
@@ -65,10 +69,9 @@ public class PledgePane extends JTextPane {
 		center = new SimpleAttributeSet();
 		//StyleConstants.setBold(center, true);
 		StyleConstants.setFontFamily(center, "Impact");
-		StyleConstants.setFontSize(center, 48);
+		StyleConstants.setFontSize(center, maxFontSize);
 		StyleConstants.setForeground(center, Color.black);
 		StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
-		
 		setTextFadeInTime(textFadeInTime);
 	}
 	
@@ -133,6 +136,37 @@ public class PledgePane extends JTextPane {
 		
 		nextText();
 	}
+
+	public static int getMaxFittingFontSize(Graphics g, Font font, 
+			String string, Dimension size, int maxFontSize){
+		return getMaxFittingFontSize(g, font, string, size.width, size.height, maxFontSize);
+	}
+
+	/* Calculate the max font size that fits within a graphics object with line wrapping */
+	public static int getMaxFittingFontSize(Graphics g, Font font, String string, 
+			int width, int height, int maxFontSize){
+		int minFontSize = 0;
+		int currFontSize = font.getSize();
+
+		while (maxFontSize - minFontSize > 2){
+			FontMetrics fm = g.getFontMetrics(new Font(font.getName(), 
+					font.getStyle(), currFontSize));
+			int fontWidth = fm.stringWidth(string);
+			int fontHeight = fm.getLeading() + fm.getMaxAscent() + fm.getMaxDescent();
+			int numLines = height / fontHeight;
+			int currWidth = width * numLines;
+			
+			if ((fontWidth > currWidth) || (fontHeight > height)){
+				maxFontSize = currFontSize;
+				currFontSize = (maxFontSize + minFontSize) / 2;
+			} else {
+				minFontSize = currFontSize;
+				currFontSize = (minFontSize + maxFontSize) / 2;
+			}
+		}
+
+		return currFontSize;
+	}
 	
 	// Should be called on the EDT thread
 	public void nextText() {
@@ -140,11 +174,19 @@ public class PledgePane extends JTextPane {
 			setVisible(false);
 			return;
 		}
-		
+
 		String text = textQueue.remove(0);
 		
 		StyledDocument doc = new DefaultStyledDocument();
 		
+    	int fontSize = getMaxFittingFontSize(PledgePane.this.getGraphics(), 
+    			PledgePane.this.getFont(), 
+    			text, 
+    			PledgePane.this.getSize(), 
+    			maxFontSize);
+       
+		StyleConstants.setFontSize(center, fontSize);
+        
 		try {
 			doc.insertString(0, text, center);
 		} catch (BadLocationException e) {
@@ -164,14 +206,18 @@ public class PledgePane extends JTextPane {
 		StyleConstants.setFontFamily(center, font);
 	}
 	
+	public void setFontColor(Color c) {
+		StyleConstants.setForeground(center, c);
+	}
+	
 	public void setFontSize(int size) {
-		StyleConstants.setFontSize(center, 48);
+		maxFontSize = size;
 	}
 	
 	public void addText(String text) {
 		
-		System.out.printf("PledgePane: Add text '%s' queue size=%d\n",
-				text, textQueue.size());
+		/* System.out.printf("PledgePane: Add text '%s' queue size=%d\n",
+				text, textQueue.size()); */
 		
 		textQueue.add(text);
 		

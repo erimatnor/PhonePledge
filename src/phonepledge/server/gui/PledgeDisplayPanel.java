@@ -80,6 +80,7 @@ public class PledgeDisplayPanel extends JPanel
 	private ArrayList<Pledge> pledgeList = new ArrayList<Pledge>();
 	static Color tickerColor = new Color(0, 0, 80);
 	static Color backgroundColor = Color.white;
+	static Color telephoneNrFontColor = tickerColor;
 	// Position and thickness of blue L
 	int cornerX;
 	int cornerY;
@@ -163,6 +164,15 @@ public class PledgeDisplayPanel extends JPanel
 			telephoneNrFontName = value;
 		} 
 		
+		if ((value = (String)props.getProperty("TelephoneNumberFontColor")) != null) {
+			Color tmpColor = stringToColor(value);
+			
+			if (tmpColor != null) {
+				telephoneNrFontColor = tmpColor;
+				System.out.println("TelephoneNumberFontColor=" + value);
+			}
+		}
+		
 		if ((value = (String)props.getProperty("PledgeFont")) != null) {
 			pledgePane.setFont(value);
 		}
@@ -192,6 +202,7 @@ public class PledgeDisplayPanel extends JPanel
 				System.err.println("Bad LogoScaleFactor value " + value);
 			}
 		}
+		
 		if ((value = (String)props.getProperty("TickerFont")) != null) {
 			tickerLabel.setFont(value);
 		} 
@@ -247,8 +258,8 @@ public class PledgeDisplayPanel extends JPanel
 			pledgeInstruction = value;
 		}
 		
-		if ((value = (String)props.getProperty("PhoneNumber")) != null) {
-			System.out.println("PhoneNumber=" + value);
+		if ((value = (String)props.getProperty("TelephoneNumber")) != null) {
+			System.out.println("TelephoneNumber=" + value);
 			phoneNumber = value;
 		}
 
@@ -358,7 +369,7 @@ public class PledgeDisplayPanel extends JPanel
 		g2.setFont(new Font(telephoneNrFontName, Font.BOLD, width / 30));
 		int phoneNumberWidth = g2.getFontMetrics().stringWidth(phoneNumber);
 		int phoneNumberHeight = g2.getFontMetrics().getHeight();
-		g2.setColor(tickerColor);
+		g2.setColor(telephoneNrFontColor);
 		
 		// Move text down a bit
 		y += 15;

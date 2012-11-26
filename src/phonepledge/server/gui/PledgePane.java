@@ -48,7 +48,9 @@ public class PledgePane extends JTextPane {
 	SimpleAttributeSet center;
 	Timer textFadeInTimer;
 	Timer textShowTimer;
+	private String currentPledgeText = "";
 	private int maxFontSize = 48;
+	private Dimension oldDimension = null;
 	// Queue of pledges that are removed when they have been showed
 	private ArrayList<String> textQueue = new ArrayList<String>();
 	
@@ -148,6 +150,8 @@ public class PledgePane extends JTextPane {
 		int minFontSize = 0;
 		int currFontSize = font.getSize();
 
+		//System.out.println("width=" + width + " height=" + height);
+		
 		while (maxFontSize - minFontSize > 2){
 			FontMetrics fm = g.getFontMetrics(new Font(font.getName(), 
 					font.getStyle(), currFontSize));
@@ -168,23 +172,23 @@ public class PledgePane extends JTextPane {
 		return currFontSize;
 	}
 	
-	// Should be called on the EDT thread
-	public void nextText() {
-		if (textQueue.isEmpty()) {
-			setVisible(false);
+	public void updateAndScaleText(String text) {
+		if (text == null || text.length() == 0)
 			return;
-		}
-
-		String text = textQueue.remove(0);
 		
-		StyledDocument doc = new DefaultStyledDocument();
+		Dimension d = PledgePane.this.getSize();
+		
+    	/* Check if we really need to change the document */
+		if (oldDimension != null && oldDimension.equals(d)) 
+			return;
+		
+		oldDimension = d;
 		
     	int fontSize = getMaxFittingFontSize(PledgePane.this.getGraphics(), 
     			PledgePane.this.getFont(), 
-    			text, 
-    			PledgePane.this.getSize(), 
-    			maxFontSize);
-       
+    			text, d, maxFontSize);
+
+		StyledDocument doc = new DefaultStyledDocument();
 		StyleConstants.setFontSize(center, fontSize);
         
 		try {
@@ -196,6 +200,17 @@ public class PledgePane extends JTextPane {
 		
 		doc.setParagraphAttributes(0, doc.getLength(), center, true);
 		setDocument(doc);
+	}
+	
+	// Should be called on the EDT thread
+	public void nextText() {
+		if (textQueue.isEmpty()) {
+			setVisible(false);
+			return;
+		}
+
+		currentPledgeText = textQueue.remove(0);
+		//updateAndScaleText(currentPledgeText);
 		stop();
 		setVisible(true);
 		alpha = alphaStart;
@@ -235,6 +250,7 @@ public class PledgePane extends JTextPane {
 	protected void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D)g;
 		g2.setComposite(makeComposite(alpha));
+		updateAndScaleText(currentPledgeText);
 		super.paintComponent(g);
 	}
 

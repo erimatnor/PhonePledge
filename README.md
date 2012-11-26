@@ -77,8 +77,15 @@ key-value pairs:
 NextSlideTimeout=INTEGER
 	Number of seconds between each slide
 
+TelephoneNumber=TEXT 
+	The phone number to send pledges to (this will probably 
+	be overridden once logged in to Google Voice)
+
 TelephoneNumberFont=TEXT
 	Font of telephone number shown (Name of some system font, e.g., Arial)
+
+TelephoneNumberFontColor=TEXT
+	Color of the telephone number
 
 BackgroundColor=INTEGER,INTEGER,INTEGER
 	The RGB color code to use for the background of the display
@@ -120,10 +127,6 @@ NextPledgeTimeout=INTEGER
 PledgeInstruction=TEXT
 	The instruction on how to send pledges (text above phone number)
 
-PhoneNumber=TEXT 
-	The phone number to send pledges to (this will probably 
-	be overridden once logged in to Google Voice)
-	
 LogoScaleFactor=REAL
 	The scaling factor for the bottom left logo (1.0 means no scaling)
 

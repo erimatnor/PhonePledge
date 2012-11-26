@@ -88,7 +88,7 @@ public class PledgeDisplayPanel extends JPanel
 	int blueLWidth;
 	int idleTimeout = 5000;
 	RenderingHints renderHints;
-	double logoScaleFactor = 1;
+	double logoScaleFactor = 0.25;
 	
 	public PledgeDisplayPanel() {
 		CodeSource codeSource = PledgeDisplayPanel.class.getProtectionDomain().getCodeSource();

@@ -87,6 +87,7 @@ public class PledgeDisplayPanel extends JPanel
 	int blueLWidth;
 	int idleTimeout = 5000;
 	RenderingHints renderHints;
+	double logoScaleFactor = 1;
 	
 	public PledgeDisplayPanel() {
 		CodeSource codeSource = PledgeDisplayPanel.class.getProtectionDomain().getCodeSource();
@@ -184,6 +185,13 @@ public class PledgeDisplayPanel extends JPanel
 			}
 		}
 		
+		if ((value = (String)props.getProperty("LogoScaleFactor")) != null) {
+			try {
+				logoScaleFactor = Double.parseDouble(value);
+			} catch (NumberFormatException e) {
+				System.err.println("Bad LogoScaleFactor value " + value);
+			}
+		}
 		if ((value = (String)props.getProperty("TickerFont")) != null) {
 			tickerLabel.setFont(value);
 		} 
@@ -337,7 +345,7 @@ public class PledgeDisplayPanel extends JPanel
 		g2.setColor(backgroundColor);
 		g2.fillRect(0, 0, width, height);
 
-		int logoWidth = (int)(width / 4);
+		int logoWidth = (int)(width * logoScaleFactor);
 		Image scaledLogo = logo.getScaledInstance(logoWidth, -1, Image.SCALE_SMOOTH);
 		y = (int)(height - scaledLogo.getHeight(this) - yOffset);
 		cornerX = (int)xOffset;

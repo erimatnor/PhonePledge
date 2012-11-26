@@ -74,47 +74,47 @@ The ```display.properties``` configuration file supports the following
 key-value pairs:
 
 ```
-NextSlideTimeout=NUMBER
+NextSlideTimeout=INTEGER
 	Number of seconds between each slide
 
 TelephoneNumberFont=TEXT
 	Font of telephone number shown (Name of some system font, e.g., Arial)
 
-BackgroundColor=NUMBER,NUMBER,NUMBER
+BackgroundColor=INTEGER,INTEGER,INTEGER
 	The RGB color code to use for the background of the display
 	window
 
 PledgeFont=TEXT
 	Sets the font of the Pledges shown in the center of the screen
 
-PledgeFontSize=NUMBER
+PledgeFontSize=INTEGER
 	Sets the font size of the Pledges shown in the center of the screen
 
-PledgeFontColor=NUMBER,NUMBER,NUMBER 
+PledgeFontColor=INTEGER,INTEGER,INTEGER 
         The RGB color code to use for the pledges shown in the center of the
 	screen.
 
 TickerFont=TEXT
-	Sets the font of the pledges in the Ticker
+	Sets the font of the pledges in the ticker
 
-TickerFontSize=NUMBER
-	Sets the font size of pledges in the Ticker
+TickerFontSize=INTEGER
+	Sets the font size of pledges in the ticker
 
-TickerColor=NUMBER,NUMBER,NUMBER
+TickerColor=INTEGER,INTEGER,INTEGER
 	The RGB color code to use for the ticker background in the
 	display window
 
-TickerFontColor=NUMBER,NUMBER,NUMBER
+TickerFontColor=INTEGER,INTEGER,INTEGER
 	The RGB color code to use for the ticker font in the
 	display window
 
 TickerHz=TEXT
 	How frequently the ticker should be updated (affects smoothness)
 
-TicksPerSecond=NUMBER
+TicksPerSecond=INTEGER
 	How "far" the ticker should move each second
 
-NextPledgeTimeout=NUMBER
+NextPledgeTimeout=INTEGER
 	Timeout before showing next pledge (seconds)
 
 PledgeInstruction=TEXT
@@ -124,6 +124,8 @@ PhoneNumber=TEXT
 	The phone number to send pledges to (this will probably 
 	be overridden once logged in to Google Voice)
 	
+LogoScaleFactor=REAL
+	The scaling factor for the bottom left logo (1.0 means no scaling)
 
 NOTE: most of these settings can also be changed from the control
 window.

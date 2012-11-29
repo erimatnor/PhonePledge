@@ -167,7 +167,7 @@ should be put in a slides subdirectory of the directory containing
 phonepledge.jar. The slides should be image files (most common formats
 work) and they will be shown in the order of their file names. So, in
 order to force a specific order it is convenient to name the files,
-e.g., 1.jpg, 2.jpg, etc.
+e.g., 01.jpg, 02.jpg, etc.
 
 Make sure the slide images are of a decent resolution and quality so
 that they look good on a big screen. PhonePledge will rescale them

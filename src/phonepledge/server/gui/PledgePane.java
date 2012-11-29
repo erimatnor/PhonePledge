@@ -49,6 +49,7 @@ public class PledgePane extends JTextPane {
 	Timer textFadeInTimer;
 	Timer textShowTimer;
 	private String currentPledgeText = "";
+	private String oldPledgeText = null;
 	private int maxFontSize = 48;
 	private Dimension oldDimension = null;
 	// Queue of pledges that are removed when they have been showed
@@ -179,7 +180,9 @@ public class PledgePane extends JTextPane {
 		Dimension d = PledgePane.this.getSize();
 		
     	/* Check if we really need to change the document */
-		if (oldDimension != null && oldDimension.equals(d)) 
+		if (oldPledgeText == currentPledgeText && 
+				oldDimension != null && 
+				oldDimension.equals(d)) 
 			return;
 		
 		oldDimension = d;
@@ -208,9 +211,9 @@ public class PledgePane extends JTextPane {
 			setVisible(false);
 			return;
 		}
-
+		
+		oldPledgeText = currentPledgeText;
 		currentPledgeText = textQueue.remove(0);
-		//updateAndScaleText(currentPledgeText);
 		stop();
 		setVisible(true);
 		alpha = alphaStart;

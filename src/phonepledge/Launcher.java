@@ -16,6 +16,9 @@
  */
 package phonepledge;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+
 import phonepledge.client.gui.PledgeControlPanel;
 import phonepledge.server.gui.PledgeDisplayFrame;
 
@@ -34,6 +37,17 @@ public class Launcher {
 		return copy;
 	}
 	
+	private static void runThreadedApp(final String[] args) {
+		Thread server = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				PledgeDisplayFrame.main(args);
+			}
+		});
+
+		server.start();
+		PledgeControlPanel.main(args);
+	}
 	
 	/** 
 	 * @param args
@@ -42,7 +56,7 @@ public class Launcher {
 		String[] newArgs = args;
 		
 		if (args.length > 0) {
-			boolean runClient = false;
+			boolean runClient = false, spawnProcess = true;
 			
 			if (args[0].equals("-s")) {
 				runClient = false;
@@ -50,22 +64,32 @@ public class Launcher {
 			} else if (args[0].equals("-c")) {
 				runClient = true;
 				newArgs = copyArgs(args,1, args.length-1);
+			} else if (args[0].equals("-x")) {
+				newArgs = copyArgs(args,1, args.length-1);
+				spawnProcess = false;
 			}
 
-			if (runClient)
+			if (!spawnProcess)
+				runThreadedApp(newArgs);
+			else if (runClient)
 				PledgeControlPanel.main(newArgs);
 			else
 				PledgeDisplayFrame.main(newArgs);
 		} else {
-			Thread server = new Thread(new Runnable() {
-				@Override
-				public void run() {
-					PledgeDisplayFrame.main(args);
-				}
-			});
+			try {
+				String pathToJar = Launcher.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
 
-			server.start();
-			PledgeControlPanel.main(args);
+				ProcessBuilder pb = new ProcessBuilder("java",
+						"-Xmx512m", "-classpath", 
+						pathToJar, "phonepledge.Launcher", "-x");
+				try {
+					pb.start();
+				} catch (IOException e) {
+					System.err.println("Could not spawn new PhonePledge process");
+				}
+			} catch (URISyntaxException e) {
+				System.err.println("Could not find Launcher jar path");
+			}
 		}
 	}
 }

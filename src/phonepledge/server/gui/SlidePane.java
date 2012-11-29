@@ -113,10 +113,13 @@ public class SlidePane extends JComponent {
 			File slidesFile = new File(slidesPath);
 			File[] images = slidesFile.listFiles(new ImageFilter());
 
+			System.out.println("Found " + images.length + "files");
+			
 			if (images == null)
 				return;
 			
 			System.out.println("loading " + images[slideIndex].getName());
+			
 			Image img, imgScaled = null;
 			
 			try {
@@ -133,7 +136,7 @@ public class SlidePane extends JComponent {
 				try {
 					long startTime = System.currentTimeMillis();
 					javax.swing.SwingUtilities.invokeLater(new ImageUpdater(img, imgScaled));
-					//System.out.println("loading " + images[slideIndex].getName());
+					System.out.println("loading " + images[slideIndex].getName());
 					img = ImageIO.read(images[slideIndex]);
 					//System.out.println("loading - width=" + getWidth())
 					imgScaled = scaleImage(img, keepAspect);

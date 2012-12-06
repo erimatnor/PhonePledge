@@ -36,8 +36,7 @@ public class SlidePane extends JComponent {
 	private Image slide = null;
 	//private Image scaledSlide = null;
 	private Thread slideShowThread = null;
-	private ImageLoader imgLoader = new ImageLoader();
-	private int slideIndex = 0;
+	private ImageLoader imgLoader;
 	public int NEXT_SLIDE_TIMEOUT = 10000;
 	Dimension oldSize;
 	boolean keepAspect = false;
@@ -51,6 +50,7 @@ public class SlidePane extends JComponent {
 	SlidePane() {
 		setSize(800, 600);
 		oldSize = getSize();
+		imgLoader = new ImageLoader();
 	}
 
 	public void setNextSlideTimeout(int milliseconds) {
@@ -90,45 +90,45 @@ public class SlidePane extends JComponent {
 	
 	class ImageLoader implements Runnable {
 		boolean shouldExit = false;
+		boolean isRunning = false;
+		File jarFile = null;
+		String slidesPath;
+		File[] images;
+		Image img = null, imgScaled = null;
+		private int slideIndex = 0;
 		
-		@Override
-		public void run() {
-			shouldExit = false;
+		public ImageLoader() {
 			CodeSource codeSource = PledgeDisplayPanel.class.getProtectionDomain().getCodeSource();
-			File jarFile = null;
+			
 			try {
 				jarFile = new File(codeSource.getLocation().toURI().getPath());
 			} catch (URISyntaxException e1) {
 				e1.printStackTrace();
 			}
-
-			if (jarFile == null) {
-				return;
-			}
-
-			String slidesPath = jarFile.getParentFile().getAbsolutePath()
-					+ "/slides";
-			System.out.println("dir is " + slidesPath);
+			slidesPath = jarFile.getParentFile().getAbsolutePath() + "/slides";
 
 			File slidesFile = new File(slidesPath);
-			File[] images = slidesFile.listFiles(new ImageFilter());
-
+			images = slidesFile.listFiles(new ImageFilter());
 			System.out.println("Found " + images.length + "files");
-			
-			if (images == null)
-				return;
+		}
+		
+		@Override
+		public void run() {
+			isRunning = true;
+			shouldExit = false;
 			
 			System.out.println("loading " + images[slideIndex].getName());
-			
-			Image img, imgScaled = null;
-			
-			try {
-				img = ImageIO.read(images[slideIndex]);
-				//System.out.println("loading - width=" + getWidth());
-				imgScaled = scaleImage(img, keepAspect);	
-			} catch (IOException e2) {
-				e2.printStackTrace();
-				return;
+
+			if (img == null) {
+				// First run
+				try {
+					img = ImageIO.read(images[slideIndex]);
+					//System.out.println("loading - width=" + getWidth());
+					imgScaled = scaleImage(img, keepAspect);	
+				} catch (IOException e2) {
+					e2.printStackTrace();
+					return;
+				}
 			}
 			
 			while (!shouldExit) {
@@ -148,6 +148,14 @@ public class SlidePane extends JComponent {
 					//System.err.println("Slideshow interrupted");
 				}
 			}
+			isRunning = false;
+		}
+		
+		public void reset() {
+			if (isRunning)
+				return;
+			slideIndex = 0;
+			//img = null;
 		}
 		
 		public void stop() {
@@ -164,7 +172,6 @@ public class SlidePane extends JComponent {
 		if (slideShowThread != null && slideShowThread.isAlive())
 			return;
 
-		slideIndex = 0;
 		slideShowThread = new Thread(imgLoader);
 		slideShowThread.start();
 	}

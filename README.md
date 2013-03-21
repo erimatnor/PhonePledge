@@ -101,7 +101,7 @@ PledgeFontSize=INTEGER
 	Sets the font size of the Pledges shown in the center of the screen
 
 PledgeFontColor=INTEGER,INTEGER,INTEGER 
-        The RGB color code to use for the pledges shown in the center of the
+	The RGB color code to use for the pledges shown in the center of the
 	screen.
 
 TickerFont=TEXT

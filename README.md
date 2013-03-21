@@ -139,7 +139,7 @@ NOTE: many of the above display settings can also be changed from the control
 window.
 
 
-The 'control.properties' configuration file supports the following
+The ```control.properties``` configuration file supports the following
 key-value pairs:
 
 ```

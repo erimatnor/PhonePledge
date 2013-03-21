@@ -68,7 +68,7 @@ public class PledgeDisplayPanel extends JPanel
 	String telephoneNrFontName = "sansserif";
 	final SlidePane slidePane;
 	final PledgePane pledgePane;
-	Pledge welcomePledge = new Pledge("Welcome to PhonePledge!");
+	Pledge startupPledge = new Pledge("Welcome to PhonePledge!");
 	boolean slideMode = false;
 	Timer idleTimer;
 	private String pledgeInstruction = "Text your pledge and message to";
@@ -162,6 +162,10 @@ public class PledgeDisplayPanel extends JPanel
 
 		if ((value = (String)props.getProperty("TelephoneNumberFont")) != null) {
 			telephoneNrFontName = value;
+		} 
+		
+		if ((value = (String)props.getProperty("StartupMessage")) != null) {
+			startupPledge = new Pledge(value);
 		} 
 		
 		if ((value = (String)props.getProperty("TelephoneNumberFontColor")) != null) {
@@ -331,9 +335,8 @@ public class PledgeDisplayPanel extends JPanel
 	}
 
 	public void showWelcomePledge() {
-		Pledge p = new Pledge("Welcome to PhonePledge!");
-		p.setState(Pledge.STATE_ACCEPTED);
-		addPledge(p);
+		startupPledge.setState(Pledge.STATE_ACCEPTED);
+		addPledge(startupPledge);
 	}
 	
 	private void updateBackground() {
@@ -470,9 +473,9 @@ public class PledgeDisplayPanel extends JPanel
 			} else if (p.getState() == Pledge.STATE_ACCEPTED) {
 				setPledgeMode(false);
 
-	    		if (welcomePledge != null && !p.equals(welcomePledge)) {
-	        		revokePledge(welcomePledge);
-	        		welcomePledge = null;
+	    		if (startupPledge != null && !p.equals(startupPledge)) {
+	        		revokePledge(startupPledge);
+	        		startupPledge = null;
 	        	}
 				if (!pledgeHash.contains(p)) {
 					pledgeList.add(p);
@@ -638,7 +641,7 @@ public class PledgeDisplayPanel extends JPanel
 		// Do not send welcome pledge
 		if (list.length > 0) {
 			
-			if (list[0].equals(welcomePledge))
+			if (list[0].equals(startupPledge))
 				list[0] = null;
 		
 				StatusCommand cmd = new StatusCommand(StatusCommand.CMD_PLEDGE_LIST, list);

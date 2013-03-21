@@ -106,16 +106,23 @@ public class SlidePane extends JComponent {
 				e1.printStackTrace();
 			}
 			slidesPath = jarFile.getParentFile().getAbsolutePath() + "/slides";
-
-			File slidesFile = new File(slidesPath);
-			images = slidesFile.listFiles(new ImageFilter());
-			System.out.println("Found " + images.length + "files");
+			
 		}
 		
 		@Override
 		public void run() {
 			isRunning = true;
 			shouldExit = false;
+
+			File slidesFile = new File(slidesPath);
+			images = slidesFile.listFiles(new ImageFilter());
+			
+			if (images == null || images.length == 0) {
+				System.out.println("No slides, image loader exits...");
+				return;
+			} else {
+				System.out.println("Found " + images.length + "files");
+			}
 			
 			System.out.println("loading " + images[slideIndex].getName());
 

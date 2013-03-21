@@ -91,6 +91,9 @@ BackgroundColor=INTEGER,INTEGER,INTEGER
 	The RGB color code to use for the background of the display
 	window
 
+StartupMessage=TEXT
+	Sets the text message to show when PhonePledge starts.
+
 PledgeFont=TEXT
 	Sets the font of the Pledges shown in the center of the screen
 
@@ -130,12 +133,16 @@ PledgeInstruction=TEXT
 LogoScaleFactor=REAL
 	The scaling factor for the bottom left logo (1.0 means no scaling)
 
-NOTE: most of these settings can also be changed from the control
+```
+
+NOTE: many of the above display settings can also be changed from the control
 window.
+
 
 The 'control.properties' configuration file supports the following
 key-value pairs:
 
+```
 SmsReplyMsg=TEXT
 	The text message to send as a reply to incoming pledges
 

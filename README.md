@@ -1,5 +1,5 @@
-PhonePlede
-==========
+PhonePledge
+===========
 
 For Licensing and copying information, see the file COPYING.
 

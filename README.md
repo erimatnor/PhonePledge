@@ -44,10 +44,13 @@ downloads the list of SMSes from the Google Voice account on
 startup. Use the reply functionality with caution---you do not want to
 spam your donors with lots of duplicate thank you notes.
 
-Building from Source Code
--------------------------
+Building the Application from Source Code
+-----------------------------------------
 
-Compile with ```make``` or the Eclipse IDE. Requires a Java JDK
+If you have downloaded a jar-file, you do not need to build the 
+application yourself.
+
+To build the application, compile with ```make``` or the Eclipse IDE. Requires a Java JDK
 installed on the system.
 
 To compile without Eclipse in a terminal window, type:

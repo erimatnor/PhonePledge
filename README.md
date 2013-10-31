@@ -160,9 +160,9 @@ Changing the Logos
 There are two logos displayed in the application. One large logo in
 the lower left corner (logo.png) and one small that is displayed in
 the pledge ticker (ticker.png). To change these, put a logo.png and a
-ticker.png in phonepledge.jar directory. The corner logo should
-preferably have the same background as the pledge window's (white by
-default) and the ticker logo should have the same color as the ticker
+ticker.png in the directory where you have put phonepledge.jar. The 
+corner logo should preferably have the same background as the pledge 
+window's (white by default) and the ticker logo should have the same color as the ticker
 field (RGB values 0,0,80 by default). However, colors can be user
 defined as described above.
 

@@ -1,9 +1,8 @@
 *.DS_Store
 *~
-bin/
-classes.list
-display.properties
-resources.list
-slides/
-sources.list
-phonepledge.jar
+/phonepledge.iml
+/control.properties
+/display.properties
+/slides/
+/.idea/
+/target

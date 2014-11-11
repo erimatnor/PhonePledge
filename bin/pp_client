@@ -1,3 +1,7 @@
 #!/bin/bash
 
-java -jar phonepledge.jar -c "$@"
+VERSION=0.1
+EXE_PATH=`dirname $0`
+JAR_PATH=$EXE_PATH/../target
+
+exec java -jar $JAR_PATH/phonepledge-$VERSION.jar -c '$@'

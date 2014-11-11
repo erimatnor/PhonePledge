@@ -1,5 +1,4 @@
-PhonePledge
-===========
+# PhonePledge #
 
 For Licensing and copying information, see the file COPYING.
 
@@ -15,8 +14,7 @@ unofficial Java API library found at:
 
 http://code.google.com/p/google-voice-java/
 
-Functional Overview
--------------------
+## Functional Overview ##
 
 The PhonePledge application consists of two windows: the 'control'
 window and the pledge 'display' window. The control window allows a
@@ -44,36 +42,34 @@ downloads the list of SMSes from the Google Voice account on
 startup. Use the reply functionality with caution---you do not want to
 spam your donors with lots of duplicate thank you notes.
 
-Building the Application from Source Code
------------------------------------------
+## Building the Application from Source Code ##
 
 If you have downloaded a jar-file, you do not need to build the 
 application yourself.
 
-To build the application, compile with ```make``` or the Eclipse IDE. Requires a Java JDK
+To build the application, compile with Maven or the IntelliJ IDE. Requires a Java JDK
 installed on the system.
 
-To compile without Eclipse in a terminal window, type:
+To compile with Maven in a terminal window, type:
 
-$ make
+    $ mvn package
 
 To run:
 
 In most OSes it is sufficient to just double click the jar
-file. Otherwise, run ```java -jar phonepledge.jar``` in a terminal
-window.
+file. Otherwise, run ```java -jar target/phonepledge-<version>.jar``` in a terminal
+window (replace `<version>` with the number of the file in the `target` directory).
 
-Configuration
--------------
+## Configuration ##
 
 Settings related to the control window and display window are
 configured separately using two configuration files:
-```control.properties``` and ```display.properties```. These should be
-put in the same directory as the phonepledge.jar file. The
+`control.properties` and `display.properties`. These should be
+put in the same directory as the phonepledge-<version>.jar file. The
 configuration file format is based on key-value pairs in the form
-```key=value``` (one per line).
+`key=value` (one per line).
 
-The ```display.properties``` configuration file supports the following
+The `display.properties` configuration file supports the following
 key-value pairs:
 
 ```
@@ -142,7 +138,7 @@ NOTE: many of the above display settings can also be changed from the control
 window.
 
 
-The ```control.properties``` configuration file supports the following
+The `control.properties` configuration file supports the following
 key-value pairs:
 
 ```
@@ -157,24 +153,22 @@ GoogleVoicePassword=TEXT
 	The password for the Google Voice account
 ```
 
-Changing the Logos
-------------------
+## Changing the Logos ##
 
 There are two logos displayed in the application. One large logo in
 the lower left corner (logo.png) and one small that is displayed in
 the pledge ticker (ticker.png). To change these, put a logo.png and a
-ticker.png in the directory where you have put phonepledge.jar. The 
+ticker.png in the directory where you have put phonepledge-<version>.jar. The 
 corner logo should preferably have the same background as the pledge 
 window's (white by default) and the ticker logo should have the same color as the ticker
 field (RGB values 0,0,80 by default). However, colors can be user
 defined as described above.
 
-Adding Slides
--------------
+## Adding Slides ##
 
 Slides that are to be displayed during times of low pledge activity
 should be put in a slides subdirectory of the directory containing
-phonepledge.jar. The slides should be image files (most common formats
+phonepledge-<version>.jar. The slides should be image files (most common formats
 work) and they will be shown in the order of their file names. So, in
 order to force a specific order it is convenient to name the files,
 e.g., 01.jpg, 02.jpg, etc.
@@ -185,13 +179,12 @@ automatically to fit the display area, so they can be quite
 large. However, do not make them unnecessarily large, as PhonePledge
 loads them dynamically and may slow down in case they are really huge.
 
-Keyboard Shortcuts
-------------------
+## Keyboard Shortcuts ##
 
 Control window:
 
 * a		- accept selected pledge
-* r 		- reject selected pledge
+* r     - reject selected pledge
 * up/down arrow	- Move up/down in pledge list
 
 Display window:

@@ -6,7 +6,7 @@
 
     <groupId>com.github.erimatnor</groupId>
     <artifactId>phonepledge</artifactId>
-    <version>0.1</version>
+    <version>0.1-SNAPSHOT</version>
 
     <name>phonepledge</name>
     <url>http://github.com/erimatnor/phonepledge</url>
@@ -42,8 +42,8 @@
 
     <scm>
         <url>https://github.com/erimatnor</url>
-        <connection>scm:git:git://git@github.com:erimatnor/phonepledge.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com:erimatnor/phonepledge.git
+        <connection>scm:git:git://git@github.com/erimatnor/phonepledge.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/erimatnor/phonepledge.git
         </developerConnection>
         <tag>HEAD</tag>
     </scm>
@@ -62,6 +62,14 @@
                 <configuration>
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.1</version>
+                <configuration>
+                    <tagNameFormat>v@{project.version}</tagNameFormat>
                 </configuration>
             </plugin>
             <plugin>

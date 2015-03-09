@@ -4,7 +4,7 @@
 
     <groupId>com.github.erimatnor</groupId>
     <artifactId>phonepledge</artifactId>
-    <version>0.3</version>
+    <version>0.4-SNAPSHOT</version>
 
     <name>phonepledge</name>
     <url>http://github.com/erimatnor/phonepledge</url>
@@ -43,7 +43,7 @@
         <connection>scm:git:git://git@github.com/erimatnor/phonepledge.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/erimatnor/phonepledge.git
         </developerConnection>
-        <tag>v0.3</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <build>
